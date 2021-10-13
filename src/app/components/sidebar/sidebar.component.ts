@@ -20,8 +20,8 @@ export const ROUTES: RouteInfo[] = [
     class: "" 
   },
   {
-    path: "/nextservice",
-    title: "Next Service",
+    path: "/tables",
+    title: "Tables (will be Next Service)",
     icon: "icon-puzzle-10",
     class: ""
   },
