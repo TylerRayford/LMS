@@ -4,6 +4,13 @@
         <div class=" card card-plain">
           <div class=" card-header">Dashboard</div>
           <div class=" card-body"><div class=" dashboard" id="dashboard"></div></div>
+      <ag-grid-angular
+          style="width: 500px; height: 150px;"
+          class="ag-theme-alpine"
+          [rowData]="rowData"
+          [columnDefs]="columnDefs">
+      </ag-grid-angular>
+      
         </div>
       </div>
     </div>
