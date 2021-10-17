@@ -14,6 +14,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppRoutingModule } from "./app-routing.module";
 import { ComponentsModule } from "./components/components.module";
 
+import { AgGridModule } from 'ag-grid-angular';
+import { BrowserModule } from "@angular/platform-browser";
+import { DashboardComponent } from "./pages/dashboard/dashboard.component";
+
+
 
 @NgModule({
   imports: [
@@ -24,9 +29,14 @@ import { ComponentsModule } from "./components/components.module";
     NgbModule,
     RouterModule,
     AppRoutingModule,
+    BrowserModule,
+    AgGridModule.withComponents(
+      [DashboardComponent]
+    ),
     ToastrModule.forRoot()
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent,],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent],
+  
   providers: [],
   bootstrap: [AppComponent]
 })

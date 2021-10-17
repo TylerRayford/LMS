@@ -1,10 +1,36 @@
 <div class=" content">
-    <div class=" row">
-      <div class=" col-md-12">
-        <div class=" card card-plain">
-          <div class=" card-header">Tables</div>
-          <div class=" card-body"><div class=" tables" id="tables"></div></div>
+  <div class=" row">
+    <div class=" col-md-12">
+      <div class=" card card-plain">
+        <div class=" card-header">Next Service</div>
+        <div class=" card-body"><div class=" Next Service" id="Next Service"></div></div>
+        <div>
+
+
         </div>
+        <input type="text" placeholder="Search for a client...">
+        <style> 
+          input {
+              width: 100%;
+              height: 40px;
+              background-color: white;
+              
+            }
+          </style>
+        <div>
+          <ag-grid-angular
+  style="width: 1569px; height: 500px; margin-top: 10px;"
+  class="ag-theme-balham-dark"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  >
+  
+</ag-grid-angular> 
+        </div>
+
+
       </div>
     </div>
   </div>
+</div>
+

@@ -21,7 +21,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: "/tables",
-    title: "Tables (will be Next Service)",
+    title: "Next Service",
     icon: "icon-puzzle-10",
     class: ""
   },
