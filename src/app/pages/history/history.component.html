@@ -3,8 +3,34 @@
     <div class=" col-md-12">
       <div class=" card card-plain">
         <div class=" card-header">Service History</div>
-        <div class=" card-body"><div class=" history" id="history"></div></div>
+        <div class=" card-body"><div class="Service History" id="Service History"></div></div>
+        <div>
+
+
+        </div>
+        <input type="text" placeholder="Search for a client's service history...">
+        <style> 
+          input {
+              width: 100%;
+              height: 40px;
+              background-color: white;
+              
+            }
+          </style>
+        <div>
+          <ag-grid-angular
+  style="width: 1569px; height: 500px; margin-top: 10px;"
+  class="ag-theme-alpine"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  >
+  
+</ag-grid-angular> 
+        </div>
+
+
       </div>
     </div>
   </div>
 </div>
+

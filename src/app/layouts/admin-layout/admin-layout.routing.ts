@@ -7,7 +7,7 @@ import { MapComponent } from "../../pages/map/map.component";
 
 import { TablesComponent } from "../../pages/tables/tables.component";
 
-/* This adds the route to the certian page on the sidebar */
+/* This adds the route to the certain page on the sidebar */
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
   { path: "maps", component: MapComponent },
