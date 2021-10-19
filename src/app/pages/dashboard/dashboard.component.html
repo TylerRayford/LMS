@@ -6,14 +6,17 @@
           <div class=" card-body"><div class=" dashboard" id="dashboard"></div></div>
           <div>
           
-            <div><button type="button">Add new client</button>
+            <div><button type="button"style="float: right;">Add new client</button>
             <style>
-
+              button{
+                background-color: black;
+                color: white;
+              }
             </style>
             </div>
 
           </div>
-          <input type="text" placeholder="Search Client history...">
+          <input type="text" placeholder="Search for a client...">
           <style> 
             input {
               width: 100%;
@@ -27,7 +30,7 @@
 
             <ag-grid-angular
     style="width: 1569px; height: 500px; margin-top: 10px;"
-    class="ag-theme-balham-dark"
+    class="ag-theme-alpine"
     [rowData]="rowData"
     [columnDefs]="columnDefs"
     >
