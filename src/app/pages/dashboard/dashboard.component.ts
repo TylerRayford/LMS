@@ -3,28 +3,14 @@ import { ColDef } from 'ag-grid-community';
 import { AgGridAngular } from "ag-grid-angular";
 
 
+
 @Component({
-<<<<<<< HEAD
-  selector: "app-dashboard",
-  templateUrl: "./dashboard.component.html",
-=======
   selector: "dashboard",
   templateUrl: "./dashboard.component.html"
->>>>>>> tyler
 })
 
 export class DashboardComponent implements OnInit {
 
-<<<<<<< HEAD
- 
-  constructor() 
-  {
-    {
-     
-
-    }
-
-=======
   columnDefs: ColDef[] = [
     { field: 'Client_Name',sortable: true,filter: true },
     { field: 'Client_Address',sortable: true,filter: true },
@@ -52,12 +38,10 @@ rowData = [
     
   }
 
-  ngOnInit() {
+  ngOnInit()
+  {
     
-  
->>>>>>> tyler
   }
-
-  ngOnInit() {}
+  
   
 }
