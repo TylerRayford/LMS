@@ -6,23 +6,14 @@
           <div class=" card-body"><div class=" dashboard" id="dashboard"></div></div>
           <div>
           
-            <div><button type="button"style="float: right;">Manage client</button>
+            <!-- <div><button type="button"style="float: right;">Add new client</button>
             <style>
               button{
                 background-color: black;
                 color: white;
               }
             </style>
-            </div>
-
-            <div><button type="button"style="float: right;">Add new client</button>
-              <style>
-                button{
-                  background-color: black;
-                  color: white;
-                }
-              </style>
-              </div>
+            </div> -->
 
           </div>
           <input type="text" placeholder="Search..." (keyup)="quickSearch()" [(ngModel)]="searchValue">
@@ -44,6 +35,7 @@
     (gridReady)="onGridReady($event)"
     domLayout='autoHeight'
     rowSelection="multiple"
+    editType="fullRow"
     >
     
   </ag-grid-angular> 
