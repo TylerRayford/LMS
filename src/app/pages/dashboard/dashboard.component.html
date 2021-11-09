@@ -25,23 +25,25 @@
               </div>
 
           </div>
-          <input type="text" placeholder="Search for a client...">
+          <input type="text" placeholder="Search..." (keyup)="quickSearch()" [(ngModel)]="searchValue">
           <style> 
             input {
               width: 100%;
               height: 40px;
-              background-color: white;
-            }
+              background-color: white;}
             </style>
-
           <div>
             
-
+            <!-- <input type="text" placeholder="Search..." (keyup)="quickSearch()" [(ngModel)]="searchValue"> -->
             <ag-grid-angular
-    style="width: 1569px; height: 500px; margin-top: 10px;"
+            style="width: 100%; height: 100%; margin-top: 10px;"
     class="ag-theme-alpine"
-    [rowData]="rowData"
-    [columnDefs]="columnDefs"
+    
+    [columnDefs]="colDefs"
+    [animateRows]= "true"
+    (gridReady)="onGridReady($event)"
+    domLayout='autoHeight'
+    rowSelection="multiple"
     >
     
   </ag-grid-angular> 

@@ -1,47 +1,126 @@
 import { Component, OnInit } from "@angular/core";
 import { ColDef } from 'ag-grid-community';
 import { AgGridAngular } from "ag-grid-angular";
-
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
+import { FormsModule } from "@angular/forms";
 
 
 @Component({
   selector: "dashboard",
   templateUrl: "./dashboard.component.html"
 })
-
 export class DashboardComponent implements OnInit {
+    public colDefs;
+    public gridApi;
+    public gridColumnApi;
+    public searchValue;
 
-  columnDefs: ColDef[] = [
-    { field: 'Client_Name',sortable: true,filter: true },
-    { field: 'Client_Address',sortable: true,filter: true },
-    { field: 'Client_Region',sortable: true,filter: true},
-    { field: 'Client_Zip_Code',sortable: true,filter: true},
-    { field: 'Client_Contact_Name',sortable: true,filter: true},
-    { field: 'Client_Contact_Email',sortable: true,filter: true},
-    { field: 'Client_Phone_Number',sortable: true,filter: true},
-    { field: 'Client_Active',sortable: true,filter: true},
-    { field: 'Client_Service',sortable: true,filter: true},
-    { field: 'Client_Intervals',sortable: true,filter: true},
-    { field: 'Client_Availability',sortable: true,filter: true},
-    { field: 'Client_Notes',sortable: true,filter: true},
+
+  /* columnDefs: ColDef[] = [
+    { field: 'client_Name',sortable: true,filter: true, resizable: true, checkboxSelection: true },
+    { field: 'client_Address',sortable: true,filter: true, resizable: true },
+    { field: 'client_Region',sortable: true,filter: true, resizable: true},
+    { field: 'client_Zip_Code',sortable: true,filter: true, resizable: true},
+    { field: 'client_Contact_Name',sortable: true,filter: true, resizable: true},
+    { field: 'client_Contact_Email',sortable: true,filter: true, resizable: true},
+    { field: 'client_Phone_Number',sortable: true,filter: true, resizable: true},
+    { field: 'client_Active',sortable: true,filter: true, resizable: true},
+    { field: 'client_Service',sortable: true,filter: true, resizable: true},
+    { field: 'client_Intervals',sortable: true,filter: true, resizable: true},
+    { field: 'client_Availability',sortable: true,filter: true, resizable: true},
+    { field: 'client_Notes',sortable: true,filter: true, resizable: true},
+]; */
+
+/* rowData: Observable<any[]>; */
+
+
+  constructor(private http: HttpClient) {
+    /* this.rowData = this.http.get<any[]>('https://localhost:44301/api/client'); */
     
-    
-
-];
-
-rowData = [
-    { Client_Name: 'Tyler', Client_Address: 'Bossier', Client_Region: 'Dogwood', Client_Zip_Code: '64467',Client_Contact_Name: 'Jacob',Client_Contact_Email: 'testssssssssssssssssss@gmail.com',Client_Phone_Number: '318-426-9822', },
-    { Client_Name: 'Scott', Client_Address: 'Shreveport', Client_Region: 'University City', Client_Zip_Code: '63367',Client_Contact_Name: 'Charles',Client_Contact_Email: 'test@yahoo.com',Client_Phone_Number: '318-426-9822', },
-    { Client_Name: 'Ashley', Client_Address: 'New Orleans', Client_Region: 'St. Charles', Client_Zip_Code: '22212',Client_Contact_Name: 'Rayford',Client_Contact_Email: 'test@hotmail.com',Client_Phone_Number: '318-426-9822', }
-];
-  constructor() {
     
   }
 
-  ngOnInit()
-  {
-    
+  ngOnInit() {
+    this.colDefs=[
+      {
+        headerName:"Client Name",
+        field:"client_Name",
+        sortable: true,filter: true, resizable: true, checkboxSelection: true
+      },
+      {
+        headerName:"Client Address",
+        field:"client_Address",
+        sortable: true,filter: true, resizable: true
+      },
+      {
+        headerName:"Client Region",
+        field:"client_Region",
+        sortable: true,filter: true, resizable: true
+      },
+      {
+        headerName:"Client Zip Code",
+        field:"client_Zip_Code",
+        sortable: true,filter: true, resizable: true
+      },
+      {
+        headerName:"Client Contact Name",
+        field:"client_Contact_Name",
+        sortable: true,filter: true, resizable: true
+      },
+      {
+        headerName:"Client Contact Email",
+        field:"client_Contact_Email",
+        sortable: true,filter: true, resizable: true
+      },
+      {
+        headerName:"Client Phone Number",
+        field:"clieclient_Phone_Numbernt_Name",
+        sortable: true,filter: true, resizable: true
+      },
+      {
+        headerName:"Client Active",
+        field:"client_Active",
+        sortable: true,filter: true, resizable: true
+      },
+      {
+        headerName:"Client Service",
+        field:"client_Service",
+        sortable: true,filter: true, resizable: true
+      },
+      {
+        headerName:"Client Intervals",
+        field:"client_Intervals",
+        sortable: true,filter: true, resizable: true
+      },
+      
+      {
+        headerName:"Client Availability",
+        field:"client_Availability",
+        sortable: true,filter: true, resizable: true
+      },
+      {
+        headerName:"Client Notes",
+        field:"client_Notes",
+        sortable: true,filter: true, resizable: true
+      }
+      
+    ]
+
   }
-  
+  onGridReady(params){
+    this.gridApi=params.api;
+    this.gridColumnApi=params.columnApi;
+    this.http
+    .get("https://localhost:44301/api/client")
+    .subscribe(data=>{
+      params.api.setRowData(data)
+    })
+
+  }
+  quickSearch(){
+    this.gridApi.setQuickFilter(this.searchValue);
+  }
   
 }
