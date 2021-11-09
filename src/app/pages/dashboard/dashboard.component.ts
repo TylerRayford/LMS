@@ -47,63 +47,63 @@ export class DashboardComponent implements OnInit {
       {
         headerName:"Client Name",
         field:"client_Name",
-        sortable: true,filter: true, resizable: true, checkboxSelection: true
+        sortable: true,filter: true, resizable: true, checkboxSelection: true,editable: true
       },
       {
         headerName:"Client Address",
         field:"client_Address",
-        sortable: true,filter: true, resizable: true
+        sortable: true,filter: true, resizable: true, editable: true
       },
       {
         headerName:"Client Region",
         field:"client_Region",
-        sortable: true,filter: true, resizable: true
+        sortable: true,filter: true, resizable: true, editable: true
       },
       {
         headerName:"Client Zip Code",
         field:"client_Zip_Code",
-        sortable: true,filter: true, resizable: true
+        sortable: true,filter: true, resizable: true, editable: true
       },
       {
         headerName:"Client Contact Name",
         field:"client_Contact_Name",
-        sortable: true,filter: true, resizable: true
+        sortable: true,filter: true, resizable: true, editable: true
       },
       {
         headerName:"Client Contact Email",
         field:"client_Contact_Email",
-        sortable: true,filter: true, resizable: true
+        sortable: true,filter: true, resizable: true, editable: true
       },
       {
         headerName:"Client Phone Number",
         field:"clieclient_Phone_Numbernt_Name",
-        sortable: true,filter: true, resizable: true
+        sortable: true,filter: true, resizable: true, editable: true
       },
       {
         headerName:"Client Active",
         field:"client_Active",
-        sortable: true,filter: true, resizable: true
+        sortable: true,filter: true, resizable: true, editable: true
       },
       {
         headerName:"Client Service",
         field:"client_Service",
-        sortable: true,filter: true, resizable: true
+        sortable: true,filter: true, resizable: true, editable: true
       },
       {
         headerName:"Client Intervals",
         field:"client_Intervals",
-        sortable: true,filter: true, resizable: true
+        sortable: true,filter: true, resizable: true, editable: true
       },
       
       {
         headerName:"Client Availability",
         field:"client_Availability",
-        sortable: true,filter: true, resizable: true
+        sortable: true,filter: true, resizable: true, editable: true
       },
       {
         headerName:"Client Notes",
         field:"client_Notes",
-        sortable: true,filter: true, resizable: true
+        sortable: true,filter: true, resizable: true, editable: true
       }
       
     ]
