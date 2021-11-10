@@ -6,14 +6,7 @@
           <div class=" card-body"><div class=" dashboard" id="dashboard"></div></div>
           <div>
           
-            <!-- <div><button type="button"style="float: right;">Add new client</button>
-            <style>
-              button{
-                background-color: black;
-                color: white;
-              }
-            </style>
-            </div> -->
+            
 
           </div>
           <input type="text" placeholder="Search..." (keyup)="quickSearch()" [(ngModel)]="searchValue">
@@ -25,17 +18,23 @@
             </style>
           <div>
             
-            <!-- <input type="text" placeholder="Search..." (keyup)="quickSearch()" [(ngModel)]="searchValue"> -->
+            
             <ag-grid-angular
             style="width: 100%; height: 100%; margin-top: 10px;"
     class="ag-theme-alpine"
     
     [columnDefs]="colDefs"
     [animateRows]= "true"
-    (gridReady)="onGridReady($event)"
     domLayout='autoHeight'
     rowSelection="multiple"
+    (gridReady)="onGridReady($event)"
+    [defaultColDef]="defaultColDef"
+    
+    (rowEditingStopped)="onRowEditingStopped($event)"
+    (rowEditingStarted)="onRowEditingStarted($event)"
+    (cellClicked)="onCellClicked($event)"
     editType="fullRow"
+    [suppressClickEdit]="true"       
     >
     
   </ag-grid-angular> 
