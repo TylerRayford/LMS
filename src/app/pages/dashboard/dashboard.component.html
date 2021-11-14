@@ -29,12 +29,13 @@
     rowSelection="multiple"
     (gridReady)="onGridReady($event)"
     [defaultColDef]="defaultColDef"
-    
     (rowEditingStopped)="onRowEditingStopped($event)"
     (rowEditingStarted)="onRowEditingStarted($event)"
     (cellClicked)="onCellClicked($event)"
     editType="fullRow"
-    [suppressClickEdit]="true"       
+    [suppressClickEdit]="true"
+    [pagination]="pagination"
+    [paginationPageSize]="paginationPageSize"       
     >
     
   </ag-grid-angular> 

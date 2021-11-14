@@ -38,6 +38,7 @@ function actionCellRenderer(params) {
   return eGui;
 }
 
+
     
 @Component({
   selector: "dashboard",
@@ -51,12 +52,16 @@ export class DashboardComponent implements OnInit {
     public defaultColDef;
     public rowData: [];
     private Id;
-    
-
+    public paginationPageSize;
+    public pagination;
 
 
   constructor(private http: HttpClient) {
-    
+    // enables pagination in the grid
+this.pagination = true;
+
+// sets 10 rows per page (default is 100)
+this.paginationPageSize = 10;
     
     
     
@@ -214,5 +219,7 @@ export class DashboardComponent implements OnInit {
       location.reload(); 
       }, 1000);
   }
+  
+  
 }
   
