@@ -17,7 +17,8 @@ import { ComponentsModule } from "./components/components.module";
 import { AgGridModule } from 'ag-grid-angular';
 import { BrowserModule } from "@angular/platform-browser";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
-
+import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
+import { RangeSelectionModule } from "@ag-grid-enterprise/range-selection";
 
 
 @NgModule({
