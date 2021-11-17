@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ColDef, Module } from 'ag-grid-community';
 import { AgGridAngular } from "ag-grid-angular";
 import { catchError, Observable } from "rxjs";
@@ -38,6 +38,34 @@ function actionCellRenderer(params) {
   return eGui;
 }
 
+/* function getDatePicker() {
+  function Datepicker() {}
+  Datepicker.prototype.init = function (params) {
+    this.eInput = document.createElement('input');
+    this.eInput.value = params.value;
+    this.eInput.classList.add('ag-input');
+    this.eInput.style.height = '100%';
+    $(this.eInput).datepicker({ dateFormat: 'dd/mm/yy' });
+  };
+  Datepicker.prototype.getGui = function () {
+    return this.eInput;
+  };
+  Datepicker.prototype.afterGuiAttached = function () {
+    this.eInput.focus();
+    this.eInput.select();
+  };
+  Datepicker.prototype.getValue = function () {
+    return this.eInput.value;
+  };
+  Datepicker.prototype.destroy = function () {};
+  Datepicker.prototype.isPopup = function () {
+    return false;
+  };
+  return Datepicker;
+} */
+
+
+
 
     
 @Component({
@@ -54,7 +82,7 @@ export class DashboardComponent implements OnInit {
     private Id;
     public paginationPageSize;
     public pagination;
-
+    public components;
 
   constructor(private http: HttpClient) {
     // enables pagination in the grid
@@ -62,9 +90,7 @@ this.pagination = true;
 
 // sets 10 rows per page (default is 100)
 this.paginationPageSize = 10;
-    
-    
-    
+
   }
 
   ngOnInit() {
@@ -83,75 +109,73 @@ this.paginationPageSize = 10;
         sortable: true,filter: true, resizable: true, /* checkboxSelection: true *//* , editable:true */
       },
       {
-        headerName:"Client Address",
+        headerName:"Address",
         field:"client_Address",
         sortable: true,filter: true, resizable: true, editable: true
       },
       {
-        headerName:"Client Region",
+        headerName:"Region",
         field:"client_Region",
         sortable: true,filter: true, resizable: true, editable: true
       },
       {
-        headerName:"Client Zip Code",
+        headerName:"Zip Code",
         field:"client_Zip_Code",
         sortable: true,filter: true, resizable: true, editable: true
       },
       {
-        headerName:"Client Contact Name",
+        headerName:"Contact Name",
         field:"client_Contact_Name",
         sortable: true,filter: true, resizable: true, editable: true
       },
       {
-        headerName:"Client Contact Email",
+        headerName:"Contact Email",
         field:"client_Contact_Email",
         sortable: true,filter: true, resizable: true, editable: true
       },
       {
-        headerName:"Client Phone Number",
-        field:"clieclient_Phone_Numbernt_Name",
+        headerName:"Phone Number",
+        field:"client_Phone_Number",
         sortable: true,filter: true, resizable: true, editable: true
       },
       {
-        headerName:"Client Active",
+        headerName:"Active",
         field:"client_Active",
         sortable: true,filter: true, resizable: true, editable: true
       },
       {
-        headerName:"Client Service",
-        field:"client_Service",
-        sortable: true,filter: true, resizable: true, editable: true
+        headerName:"Service",
+        field:"client_Next_Service_Date",
+        sortable: true,filter: true, resizable: true, editable: true,cellEditor: 'datePicker'
       },
       {
-        headerName:"Client Intervals",
+        headerName:"Intervals",
         field:"client_Intervals",
         sortable: true,filter: true, resizable: true, editable: true
       },
       
-      {
-        headerName:"Client Availability",
+      /* {
+        headerName:"Availability",
         field:"client_Availability",
         sortable: true,filter: true, resizable: true, editable: true
-      },
+      }, */
       {
-        headerName:"Client Notes",
+        headerName:"Notes",
         field:"client_Notes",
         sortable: true,filter: true, resizable: true, editable: true
       },
-      {
-        headerName:"Category",
-        field:"CategoryID",
-        sortable: true,filter: true, resizable: true, editable: true
-      }
-
       
     ]
     this.defaultColDef = {
       editable: true
     };
+    /* this.components = { datePicker: getDatePicker() }; */
     this.rowData = null;
-
   }
+
+  
+  
+  
   onGridReady(params){
     this.gridApi=params.api;
     this.gridColumnApi=params.columnApi;
@@ -183,6 +207,8 @@ this.paginationPageSize = 10;
         params.api.applyTransaction({
           remove: [params.node.data]
         });
+        let id = params.data.id;
+      this.http.post<any>("https://localhost:44301/api/client/delete/"+id, httpOptions).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "update") {
@@ -194,7 +220,9 @@ this.paginationPageSize = 10;
         params.api.stopEditing(true);
       }
     }
+
   }
+  
   
 
   onRowEditingStarted(params) {
@@ -219,7 +247,17 @@ this.paginationPageSize = 10;
       location.reload(); 
       }, 1000);
   }
-  
+
+
+  @ViewChild('agGrid') agGrid: AgGridAngular;
+  onAddRow(params) {
+    this.agGrid.api.updateRowData({
+      add: [{ client_Name: '', client_Address: '', client_Region: '', client_Zip_Code: '', client_Contact_Name: '', client_Contact_Email: '', Client_Phone_Number: '',
+       client_Active: '', client_Service: '', client_Intervals: '', /* client_Availability: '', */ client_Notes: '',}]
+    });
+    this.http.post<any>("https://localhost:44301/api/client/", params.data, httpOptions).subscribe(/* data => this.Id = data.id */);
+    //generate new id to bind, call api
+  }
   
 }
   

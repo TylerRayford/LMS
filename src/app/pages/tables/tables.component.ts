@@ -78,8 +78,8 @@ ngOnInit() {
     },
     {
       headerName:"Last Service",
-      field:"client_Service",
-      sortable: true,filter: true, resizable: true, editable: true
+      field:"client_Next_Service_Date",
+      sortable: true,filter: true, resizable: true, editable: true,cellEditor: 'datePicker'
     },
     {
       headerName:"Next Service",
@@ -92,21 +92,21 @@ ngOnInit() {
       sortable: true,filter: true, resizable: true, editable: true
     },
     
-    {
-      headerName:"Client Availability",
-      field:"client_Availability",
-      sortable: true,filter: true, resizable: true, editable: true
-    },
+     {
+       headerName:"Client Availability",
+       field:"client_Availability",
+       sortable: true,filter: true, resizable: true, editable: true
+     },
     {
       headerName:"Client Notes",
       field:"client_Notes",
       sortable: true,filter: true, resizable: true, editable: true
     },
-    {
-      headerName:"Category",
-      field:"CategoryID",
-      sortable: true,filter: true, resizable: true, editable: true
-    }
+     {
+       headerName:"Category",
+       field:"CategoryID",
+       sortable: true,filter: true, resizable: true, editable: true
+     }
 
     
   ]
