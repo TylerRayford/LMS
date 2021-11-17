@@ -61,8 +61,8 @@
   "homepage": "https://demos.creative-tim.com/black-dashboard-angular/#/dashboard",
   "private": false,
   "dependencies": {
-    "@ag-grid-community/client-side-row-model": "^25.0.1",
-    "@ag-grid-enterprise/range-selection": "^25.0.1",
+    "@ag-grid-community/client-side-row-model": "^25.3.0",
+    "@ag-grid-enterprise/range-selection": "^25.3.0",
     "@angular/animations": "12.1.2",
     "@angular/common": "12.1.2",
     "@angular/compiler": "12.1.2",
