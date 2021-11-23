@@ -12,7 +12,13 @@ import { HistoryComponent } from "src/app/pages/history/history.component";
 // import { RtlComponent } from "../../pages/rtl/rtl.component";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
+import { LoginComponent } from "src/app/pages/login/login.component";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
 @NgModule({
   imports: [
     CommonModule,
@@ -24,6 +30,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     /* HttpClient */
   ],
   declarations: [
+    /* LoginComponent, */
     DashboardComponent,
     TablesComponent,
     MapComponent,

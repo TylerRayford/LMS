@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "ag-grid-community/dist/styles/ag-grid.css";
 @import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
 
 html,
 body {
@@ -36,3 +38,14 @@ body {
   background-color: #e7e7e7; /* Gray */
   color: black;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.help{
+  position: absolute;
+top: 10px;
+right: 10px;
+}
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

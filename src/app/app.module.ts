@@ -19,14 +19,28 @@ import { BrowserModule } from "@angular/platform-browser";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 import { RangeSelectionModule } from "@ag-grid-enterprise/range-selection";
+import { LoginComponent } from './pages/login/login.component';
+import { FlexLayoutModule } from "@angular/flex-layout";
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
+/* import { ReponseComponent } from './_interfaces/reponse/reponse.component'; */
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatToolbarModule,
     HttpClientModule,
     ComponentsModule,
+    FlexLayoutModule,
     NgbModule,
     RouterModule,
     AppRoutingModule,
@@ -37,7 +51,7 @@ import { RangeSelectionModule } from "@ag-grid-enterprise/range-selection";
     ),
     ToastrModule.forRoot()
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent,LoginComponent, /* ReponseComponent */],
   
   providers: [],
   bootstrap: [AppComponent]
