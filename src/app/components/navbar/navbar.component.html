@@ -8,10 +8,16 @@
           <span class=" navbar-toggler-bar bar3"> </span>
         </button> -->
       </div>
-      <a class=" navbar-brand" href="javascript:void(0)"> {{ getTitle() }} </a>
+      <!-- <a class=" navbar-brand" href="javascript:void(0)"> {{ getTitle() }} </a> -->
     </div>
+      <div>
+      <button class="help" mat-button color="accent" >Help</button>
+      </div>
+      <div>
+        <button class="logout" mat-button color="accent" >Logout</button>
+        </div>
     <!-- photo button menu  -->
-    <div class=" navbar-collapse" [ngbCollapse]="isCollapsed" id="navigation">
+    <!-- <div class=" navbar-collapse" [ngbCollapse]="isCollapsed" id="navigation">
       <ul class=" navbar-nav ml-auto">
         <li class=" nav-item" ngbDropdown>
           <a
@@ -47,7 +53,7 @@
         </li>
         <li class=" separator d-lg-none"></li>
       </ul>
-    </div>
+    </div> -->
   </div>
 </nav>
 

@@ -7,6 +7,9 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 import { RangeSelectionModule } from "@ag-grid-enterprise/range-selection";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ModalComponent } from "src/app/components/modal/modal.component";
+import { DeleteComponent } from "src/app/components/delete/delete.component";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -84,12 +87,12 @@ export class DashboardComponent implements OnInit {
     public pagination;
     public components;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public dialog: MatDialog) {
     // enables pagination in the grid
-this.pagination = true;
+        this.pagination = true;
 
 // sets 10 rows per page (default is 100)
-this.paginationPageSize = 10;
+      this.paginationPageSize = 10;
 
   }
 
@@ -113,7 +116,7 @@ this.paginationPageSize = 10;
         field:"client_Address",
         sortable: true,filter: true, resizable: true, editable: true
       },
-      {
+      /* {
         headerName:"Region",
         field:"client_Region",
         sortable: true,filter: true, resizable: true, editable: true
@@ -122,7 +125,7 @@ this.paginationPageSize = 10;
         headerName:"Zip Code",
         field:"client_Zip_Code",
         sortable: true,filter: true, resizable: true, editable: true
-      },
+      }, */
       {
         headerName:"Contact Name",
         field:"client_Contact_Name",
@@ -247,17 +250,14 @@ this.paginationPageSize = 10;
       location.reload(); 
       }, 1000);
   }
-
-
-  @ViewChild('agGrid') agGrid: AgGridAngular;
-  onAddRow(params) {
-    this.agGrid.api.updateRowData({
-      add: [{ client_Name: '', client_Address: '', client_Region: '', client_Zip_Code: '', client_Contact_Name: '', client_Contact_Email: '', Client_Phone_Number: '',
-       client_Active: '', client_Service: '', client_Intervals: '', /* client_Availability: '', */ client_Notes: '',}]
-    });
-    this.http.post<any>("https://localhost:44301/api/client/", params.data, httpOptions).subscribe(/* data => this.Id = data.id */);
-    //generate new id to bind, call api
-  }
   
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ModalComponent,{
+      width: '640px',disableClose: true 
+      
+    });
+
+  }
+
 }
   
