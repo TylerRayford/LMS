@@ -189,6 +189,8 @@ export class DashboardComponent implements OnInit {
     })
 
   }
+  
+  // Search Bar TS
   quickSearch(){
     this.gridApi.setQuickFilter(this.searchValue);
     console.log('test')
