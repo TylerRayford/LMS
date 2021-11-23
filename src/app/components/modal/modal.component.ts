@@ -96,10 +96,10 @@ export class ModalComponent implements OnInit {
       console.log("Save")
       this.dialog.closeAll();
     }
-    setTimeout(
+    /* setTimeout(
       function(){ 
       location.reload(); 
-      }, 1000);
+      }, 1000); */
 
 }
 
