@@ -63,6 +63,7 @@
   "dependencies": {
     "@ag-grid-community/client-side-row-model": "^25.3.0",
     "@ag-grid-enterprise/range-selection": "^25.3.0",
+    "@angular-material-extensions/google-maps-autocomplete": "^6.2.2",
     "@angular/animations": "12.1.2",
     "@angular/cdk": "^13.0.1",
     "@angular/common": "12.1.2",
@@ -97,6 +98,7 @@
     "@angular/cli": "12.1.2",
     "@angular/compiler-cli": "12.1.2",
     "@angular/language-service": "12.1.2",
+    "@types/googlemaps": "^3.43.3",
     "@types/jasmine": "3.8.1",
     "@types/jasminewd2": "2.0.10",
     "@types/jquery": "^2.0.47",
