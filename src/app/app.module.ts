@@ -40,6 +40,7 @@ import {PortalModule} from '@angular/cdk/portal';
 
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CdkTableModule} from '@angular/cdk/table';
+import { InactiveComponent } from './pages/inactive/inactive.component';
 
 
 
@@ -80,7 +81,7 @@ import {CdkTableModule} from '@angular/cdk/table';
     ToastrModule.forRoot(),
     MaterialModule
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent,LoginComponent, /* ReponseComponent */],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent,LoginComponent, InactiveComponent, /* ReponseComponent */],
   
   providers: [],
   bootstrap: [AppComponent]

@@ -28,79 +28,50 @@ function actionCellRenderer(params) {
 
   if (isCurrentRowEditing) {
     eGui.innerHTML = `
-<button  class="action-button update"  data-action="update"> update  </button>
+<button  class="action-button update"  data-action="Submit"> Submit  </button>
 <button  class="action-button cancel"  data-action="cancel" > cancel </button>
 `;
   } else {
     eGui.innerHTML = `
-<button class="action-button edit"  data-action="edit" > edit  </button>
-<button class="action-button delete" data-action="delete" > delete </button>
+<button class="action-button edit"  data-action="Restore" > Restore  </button>
+
 `;
   }
 
   return eGui;
 }
 
-/* function getDatePicker() {
-  function Datepicker() {}
-  Datepicker.prototype.init = function (params) {
-    this.eInput = document.createElement('input');
-    this.eInput.value = params.value;
-    this.eInput.classList.add('ag-input');
-    this.eInput.style.height = '100%';
-    $(this.eInput).datepicker({ dateFormat: 'dd/mm/yy' });
-  };
-  Datepicker.prototype.getGui = function () {
-    return this.eInput;
-  };
-  Datepicker.prototype.afterGuiAttached = function () {
-    this.eInput.focus();
-    this.eInput.select();
-  };
-  Datepicker.prototype.getValue = function () {
-    return this.eInput.value;
-  };
-  Datepicker.prototype.destroy = function () {};
-  Datepicker.prototype.isPopup = function () {
-    return false;
-  };
-  return Datepicker;
-} */
-
-
-
-
-    
 @Component({
-  selector: "dashboard",
-  templateUrl: "./dashboard.component.html"
+  selector: 'app-inactive',
+  templateUrl: './inactive.component.html',
+  styleUrls: ['./inactive.component.scss']
 })
-export class DashboardComponent implements OnInit {
-    public colDefs;
-    public gridApi;
-    public gridColumnApi;
-    public searchValue;
-    public defaultColDef;
-    public rowData: [];
-    private Id;
-    public paginationPageSize;
-    public pagination;
-    public components;
+export class InactiveComponent implements OnInit {
+  public colDefs;
+  public gridApi;
+  public gridColumnApi;
+  public searchValue;
+  public defaultColDef;
+  public rowData: [];
+  private Id;
+  public paginationPageSize;
+  public pagination;
+  public components;
 
-  constructor(private http: HttpClient, public dialog: MatDialog) {
+
+  constructor(private http: HttpClient, public dialog: MatDialog) { 
     // enables pagination in the grid
-        this.pagination = true;
+    this.pagination = true;
 
-// sets 10 rows per page (default is 100)
-      this.paginationPageSize = 10;
-
+    // sets 10 rows per page (default is 100)
+    this.paginationPageSize = 10;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.colDefs=[
 
       {
-        headerName: "",
+        headerName: "action",
         minWidth: 150,
         cellRenderer: actionCellRenderer,
         editable: false,
@@ -109,16 +80,11 @@ export class DashboardComponent implements OnInit {
       {
         headerName:"Client Name",
         field:"client_Name",
-        sortable: true,filter: true, resizable: true, /* checkboxSelection: true *//* , editable:true */
+        sortable: true,filter: true, resizable: true, /* checkboxSelection: true */ editable:true
       },
       {
         headerName:"Address",
         field:"client_Address",
-        sortable: true,filter: true, resizable: true, editable: true
-      },
-      {
-        headerName:"Intervals",
-        field:"client_Intervals",
         sortable: true,filter: true, resizable: true, editable: true
       },
       /* {
@@ -156,6 +122,11 @@ export class DashboardComponent implements OnInit {
         field:"client_Next_Service_Date",
         sortable: true,filter: true, resizable: true, editable: true,cellEditor: 'datePicker'
       },
+      {
+        headerName:"Intervals",
+        field:"client_Intervals",
+        sortable: true,filter: true, resizable: true, editable: true
+      },
       
       /* {
         headerName:"Availability",
@@ -176,14 +147,11 @@ export class DashboardComponent implements OnInit {
     this.rowData = null;
   }
 
-  
-  
-  
   onGridReady(params){
     this.gridApi=params.api;
     this.gridColumnApi=params.columnApi;
     this.http
-    .get("https://localhost:44301/api/client")
+    .get("https://localhost:44301/api/client/getinactive")
     .subscribe(data=>{
       params.api.setRowData(data)
     })
@@ -191,14 +159,14 @@ export class DashboardComponent implements OnInit {
   }
   quickSearch(){
     this.gridApi.setQuickFilter(this.searchValue);
-    
+    console.log('test')
   }
   onCellClicked(params) {
     // Handle click event for action cells
     if (params.column.colId === "action" && params.event.target.dataset.action) {
       let action = params.event.target.dataset.action;
 
-      if (action === "edit") {
+      if (action === "Restore") {
         params.api.startEditingCell({
           rowIndex: params.node.rowIndex,
           // gets the first columnKey
@@ -210,13 +178,13 @@ export class DashboardComponent implements OnInit {
         params.api.applyTransaction({
           remove: [params.node.data]
         });
-        let id = params.data.id;
-      this.http.post<any>("https://localhost:44301/api/client/delete/"+id, httpOptions).subscribe(/* data => this.Id = data.id */);
       }
 
-      if (action === "update") {
+      if (action === "Submit") {
         params.api.stopEditing(false);
-        
+        let id = params.data.id;
+        params.data.client_Active = true;
+        this.http.put<any>("https://localhost:44301/api/client/"+id, httpOptions).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "cancel") {
@@ -259,5 +227,9 @@ export class DashboardComponent implements OnInit {
 
   }
 
+
+
+
 }
-  
+
+
