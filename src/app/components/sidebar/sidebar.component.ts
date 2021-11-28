@@ -37,6 +37,12 @@ export const ROUTES: RouteInfo[] = [
     icon: "icon-calendar-60",
     class: ""
   },
+  {
+    path:"/inactive",
+    title: 'Inactive Clients',
+    icon: "icon-calendar-60",
+    class: ""
+  },
   
 ];
 

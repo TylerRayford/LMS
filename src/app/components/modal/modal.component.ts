@@ -50,7 +50,7 @@ export class ModalComponent implements OnInit {
       /* notes: [this.notes, [Validators.required, Validators.pattern('[a-zA-Z]+([a-zA-Z ]+)*')]], */
       address: [this.address, [Validators.required, Validators.pattern('^[a-zA-Z0-9_ ]*$')]],
     });
-    this.breakpoint = window.innerWidth <= 600 ? 1 : 2; // Breakpoint observer code
+    this.breakpoint = window.innerWidth <= 600 ? 1 : 2; // Breakpoint observer code 
   }
 
   public onAddCus(): void {
@@ -95,12 +95,14 @@ export class ModalComponent implements OnInit {
       this.http.post<any>("https://localhost:44301/api/client/", JSON.stringify({client_name: this.addCusForm.get('clientname').value, Client_Contact_Name: this.addCusForm.get('firstname').value,Client_Contact_Number: this.addCusForm.get('phone').value,Client_Contact_Email: this.addCusForm.get('email').value,Client_Address: this.addCusForm.get('address').value,Client_Intervals: this.addCusForm.get('interval').value}), httpOptions).subscribe(/* data => this.Id = data.id */);
       console.log("Save")
       this.dialog.closeAll();
+      setTimeout(
+        function(){ 
+        location.reload(); 
+        }, 1000);
+  
     }
-    /* setTimeout(
-      function(){ 
-      location.reload(); 
-      }, 1000); */
-
+    
+    
 }
 
     /* closeDialog(){

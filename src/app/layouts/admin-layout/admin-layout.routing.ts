@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { RegisterUserComponent } from "src/app/authentication/register-user/register-user.component";
 import { HistoryComponent } from "src/app/pages/history/history.component";
+import { InactiveComponent } from "src/app/pages/inactive/inactive.component";
 import { LoginComponent } from "src/app/pages/login/login.component";
 
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
@@ -16,6 +17,7 @@ export const AdminLayoutRoutes: Routes = [
   { path: "maps", component: MapComponent },
   { path: "tables", component: TablesComponent },
   { path: "history", component: HistoryComponent},
-  { path: "register", component: RegisterUserComponent}
+  { path: "register", component: RegisterUserComponent},
+  { path: "inactive", component: InactiveComponent} 
   
 ];
