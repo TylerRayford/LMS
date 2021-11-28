@@ -18,11 +18,12 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
 
-    var myLatlng = new google.maps.LatLng(38.62161468392982, -90.28094884523898);
-    var mapOptions = {
+    const map = new google.maps.Map(
+    document.getElementById("map") as HTMLElement,
+    {
         zoom: 13,
         mapTypeControl: false,
-        center: myLatlng,
+        center: {lat: 38.62144134895371, lng: -90.28088448668753},
         scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
 
         styles: [{
@@ -212,19 +213,16 @@ export class MapComponent implements OnInit {
             }]
           }
         ]
-    };
+      })
     
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-    var marker = new google.maps.Marker({
-        position: myLatlng,
-        title: "Hello World!"
-    });
-    new AutocompleteDirectionsHandler(myLatlng);
+    
+  
+    // pass to directions function
+    new AutocompleteDirectionsHandler(map);
 
     // To add the marker to the map, call setMap();
-    marker.setMap(map);
-}
+  //   marker.setMap(map);
+  }
 }
 
 class AutocompleteDirectionsHandler {
