@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from "@angular/core";
 import { ColDef, Module } from 'ag-grid-community';
 import { AgGridAngular } from "ag-grid-angular";
 import { catchError, Observable } from "rxjs";
@@ -10,12 +10,15 @@ import { RangeSelectionModule } from "@ag-grid-enterprise/range-selection";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ModalComponent } from "src/app/components/modal/modal.component";
 import { DeleteComponent } from "src/app/components/delete/delete.component";
+import { formatDate } from "@angular/common";
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json'
-  })
-};
+let headers = new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Authorization': `Bearer ${localStorage.getItem("token")}`
+  });
+
+let options = {headers: headers};
+
 
 function actionCellRenderer(params) {
   let eGui = document.createElement("div");
@@ -41,36 +44,7 @@ function actionCellRenderer(params) {
   return eGui;
 }
 
-/* function getDatePicker() {
-  function Datepicker() {}
-  Datepicker.prototype.init = function (params) {
-    this.eInput = document.createElement('input');
-    this.eInput.value = params.value;
-    this.eInput.classList.add('ag-input');
-    this.eInput.style.height = '100%';
-    $(this.eInput).datepicker({ dateFormat: 'dd/mm/yy' });
-  };
-  Datepicker.prototype.getGui = function () {
-    return this.eInput;
-  };
-  Datepicker.prototype.afterGuiAttached = function () {
-    this.eInput.focus();
-    this.eInput.select();
-  };
-  Datepicker.prototype.getValue = function () {
-    return this.eInput.value;
-  };
-  Datepicker.prototype.destroy = function () {};
-  Datepicker.prototype.isPopup = function () {
-    return false;
-  };
-  return Datepicker;
-} */
 
-
-
-
-    
 @Component({
   selector: "dashboard",
   templateUrl: "./dashboard.component.html"
@@ -87,7 +61,7 @@ export class DashboardComponent implements OnInit {
     public pagination;
     public components;
 
-  constructor(private http: HttpClient, public dialog: MatDialog) {
+  constructor(private http: HttpClient, public dialog: MatDialog, @Inject(LOCALE_ID) private locale: string) {
     // enables pagination in the grid
         this.pagination = true;
 
@@ -97,6 +71,13 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!localStorage.getItem('foo')) { 
+      localStorage.setItem('foo', 'no reload') 
+      location.reload() 
+    } else {
+      localStorage.removeItem('foo') 
+    }
+    
     this.colDefs=[
 
       {
@@ -104,22 +85,31 @@ export class DashboardComponent implements OnInit {
         minWidth: 150,
         cellRenderer: actionCellRenderer,
         editable: false,
-        colId: "action"
+        colId: "action",
+        suppressSizeToFit: false
       },
       {
         headerName:"Client Name",
         field:"client_Name",
-        sortable: true,filter: true, resizable: true, /* checkboxSelection: true *//* , editable:true */
+        sortable: true,filter: true, resizable: true,suppressSizeToFit: false
       },
       {
         headerName:"Address",
         field:"client_Address",
-        sortable: true,filter: true, resizable: true, editable: true
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
       },
       {
         headerName:"Intervals",
         field:"client_Intervals",
-        sortable: true,filter: true, resizable: true, editable: true
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true
+      },
+      {
+        headerName:"Next Service",
+        field:"client_Next_Service_Date",
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true,
+        cellRenderer: (data) => {
+          return  formatDate(data.value, 'MM/dd/yyyy', this.locale);
+        }
       },
       /* {
         headerName:"Region",
@@ -134,29 +124,23 @@ export class DashboardComponent implements OnInit {
       {
         headerName:"Contact Name",
         field:"client_Contact_Name",
-        sortable: true,filter: true, resizable: true, editable: true
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
       },
       {
         headerName:"Contact Email",
         field:"client_Contact_Email",
-        sortable: true,filter: true, resizable: true, editable: true
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
       },
       {
         headerName:"Phone Number",
         field:"client_Phone_Number",
-        sortable: true,filter: true, resizable: true, editable: true
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
       },
-      {
+      /* {
         headerName:"Active",
         field:"client_Active",
         sortable: true,filter: true, resizable: true, editable: true
-      },
-      {
-        headerName:"Service",
-        field:"client_Next_Service_Date",
-        sortable: true,filter: true, resizable: true, editable: true,cellEditor: 'datePicker'
-      },
-      
+      }, */
       /* {
         headerName:"Availability",
         field:"client_Availability",
@@ -165,7 +149,7 @@ export class DashboardComponent implements OnInit {
       {
         headerName:"Notes",
         field:"client_Notes",
-        sortable: true,filter: true, resizable: true, editable: true
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
       },
       
     ]
@@ -174,16 +158,21 @@ export class DashboardComponent implements OnInit {
     };
     /* this.components = { datePicker: getDatePicker() }; */
     this.rowData = null;
-  }
+    
+    
 
+    
+  }
+  
   
   
   
   onGridReady(params){
     this.gridApi=params.api;
     this.gridColumnApi=params.columnApi;
+    params.api.sizeColumnsToFit();
     this.http
-    .get("https://localhost:44301/api/client")
+    .get("https://localhost:44301/api/client", options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })
@@ -211,7 +200,7 @@ export class DashboardComponent implements OnInit {
           remove: [params.node.data]
         });
         let id = params.data.id;
-      this.http.post<any>("https://localhost:44301/api/client/delete/"+id, httpOptions).subscribe(/* data => this.Id = data.id */);
+      this.http.post<any>("https://localhost:44301/api/client/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "update") {
@@ -226,20 +215,25 @@ export class DashboardComponent implements OnInit {
 
   }
   
-  
+  /* onRowClicked(event: any) {
+
+    this.dialog.open(ModalComponent);
+  } */
 
   onRowEditingStarted(params) {
     params.api.refreshCells({
       columns: ["action"],
       rowNodes: [params.node],
-      force: true
+      force: true,
+
+    
     });
   }
   onRowEditingStopped(params) {
     this.gridApi=params.gridApi;
       this.gridColumnApi=params.columnApi;
       let id = params.data.id;
-      this.http.put<any>("https://localhost:44301/api/client/"+id, params.data, httpOptions).subscribe(/* data => this.Id = data.id */);
+      this.http.put<any>("https://localhost:44301/api/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
     params.api.refreshCells({
       columns: ["action"],
       rowNodes: [params.node],

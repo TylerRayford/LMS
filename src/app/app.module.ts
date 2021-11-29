@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { ToastrModule } from 'ngx-toastr';
 
@@ -37,19 +37,27 @@ import {ObserversModule} from '@angular/cdk/observers';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {PlatformModule} from '@angular/cdk/platform';
 import {PortalModule} from '@angular/cdk/portal';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CdkTableModule} from '@angular/cdk/table';
 import { InactiveComponent } from './pages/inactive/inactive.component';
+import { ErrorHandlerService } from "./shared/services/error-handler.service";
+import { JwtModule } from "@auth0/angular-jwt";
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-
-
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
 
 /* import { ReponseComponent } from './_interfaces/reponse/reponse.component'; */
 
 @NgModule({
   imports: [
     RouterModule,
+    NgxMatSelectSearchModule,
+    DateRangePickerModule,
+    MatDatepickerModule,
     ReactiveFormsModule,
     A11yModule,
     BidiModule,
@@ -79,11 +87,21 @@ import { InactiveComponent } from './pages/inactive/inactive.component';
       [DashboardComponent]
     ),
     ToastrModule.forRoot(),
-    MaterialModule
+    MaterialModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      }
+    })
   ],
   declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent,LoginComponent, InactiveComponent, /* ReponseComponent */],
   
-  providers: [],
+  providers: [
+    {
+    provide: HTTP_INTERCEPTORS,
+    useClass: ErrorHandlerService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

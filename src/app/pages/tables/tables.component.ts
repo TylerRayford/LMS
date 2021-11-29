@@ -1,20 +1,23 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, LOCALE_ID, OnInit } from "@angular/core";
 import { ColDef, Module } from 'ag-grid-community';
 import { AgGridAngular } from "ag-grid-angular";
 import { catchError, Observable } from "rxjs";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { HttpClientModule } from "@angular/common/http";
-import { FormsModule } from "@angular/forms";
+import { FormControl, FormGroup, FormsModule, Validators } from "@angular/forms";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 import { RangeSelectionModule } from "@ag-grid-enterprise/range-selection";
+import { DatePipe, formatDate } from "@angular/common";
+import { Router } from "@angular/router";
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json'
-  })
-};
+let headers = new HttpHeaders({
+  'Content-Type':  'application/json',
+  'Authorization': `Bearer ${localStorage.getItem("token")}`
+});
 
-/* function actionCellRenderer(params) {
+let options = {headers: headers};
+
+function actionCellRenderer(params) {
   let eGui = document.createElement("div");
 
   let editingCells = params.api.getEditingCells();
@@ -25,23 +28,24 @@ const httpOptions = {
 
   if (isCurrentRowEditing) {
     eGui.innerHTML = `
-<button  class="action-button update"  data-action="update"> update  </button>
-<button  class="action-button cancel"  data-action="cancel" > cancel </button>
+<button  class="action-button update"  data-action="update"> Confirm  </button>
+<button  class="action-button cancel"  data-action="cancel" > Cancel </button>
 `;
   } else {
     eGui.innerHTML = `
-<button class="action-button edit"  data-action="edit" > edit  </button>
-<button class="action-button delete" data-action="delete" > delete </button>
+<button class="action-button edit"  data-action="edit" > Serviced  </button>
+<button class="action-button edit"  data-action="history" > History  </button>
 `;
   }
 
   return eGui;
-} */
+}
 
 
 @Component({
   selector: "app-tables",
-  templateUrl: "tables.component.html"
+  templateUrl: "tables.component.html",
+  providers: [DatePipe]
 })
 export class TablesComponent implements OnInit {
   public colDefs;
@@ -49,85 +53,195 @@ export class TablesComponent implements OnInit {
   public gridColumnApi;
   public searchValue;
   public defaultColDef;
-  public rowData: [];
   private Id;
   public paginationPageSize;
   public pagination;
+  
+  dateRange = new FormGroup({
+    start: new FormControl('', [Validators.required]),
+    end: new FormControl('', [Validators.required])
+  }, {validators: this.dateLessThan('start', 'end')});
+
+  dateLessThan(from: string, to: string) {
+    console.log('dateless');
+    return (group: FormGroup): {[key: string]: any} => {
+     let f = group.controls[from];
+     let t = group.controls[to];
+     if (f.value > t.value) {
+       console.log('dateerror');
+       return {
+         dates: "Start Date should be less than End Date"
+       };
+     }
+     return {};
+    }
+  }
 
 
-
-constructor(private http: HttpClient) {
+constructor(private http: HttpClient, private datePipe: DatePipe, @Inject(LOCALE_ID) private locale: string, private router: Router,) {
   this.pagination = true;
 
 // sets 10 rows per page (default is 100)
-this.paginationPageSize = 10;
+this.paginationPageSize = 30;
 }
 
 
 ngOnInit() {
+
   this.colDefs=[
+    {
+      headerName: "",
+      minWidth: 150,
+      cellRenderer: actionCellRenderer,
+      editable: false,
+      colId: "action",
+      suppressSizeToFit: false
+    },
     {
       headerName:"Client Name",
       field:"client_Name",
-      sortable: true,filter: true, resizable: true, checkboxSelection: true/* , editable:true */
+      sortable: true,filter: true, resizable: true, checkboxSelection: false, editable: false,suppressSizeToFit: false
     },
     {
       headerName:"Client Address",
       field:"client_Address",
-      sortable: true,filter: true, resizable: true, editable: true
+      sortable: true,filter: true, resizable: true, editable: false,suppressSizeToFit: false
     },
     {
       headerName:"Last Service",
-      field:"client_Next_Service_Date",
-      sortable: true,filter: true, resizable: true, editable: true,cellEditor: 'datePicker'
+      field:"client_Last_Service_Date",
+      sortable: true,filter: true, resizable: true, editable: false,
+      cellRenderer: (data) => {
+        return  formatDate(data.value, 'MM/dd/yyyy', this.locale);
+      }
     },
     {
       headerName:"Next Service",
-      field:"next_Service",
-      sortable: true,filter: true, resizable: true, editable: true
+      field:"client_Next_Service_Date",
+      sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true,
+      cellRenderer: (data) => {
+        console.log('date' + data.value);
+        if(data.value !== '1900-01-01T00:00:00') {
+          return  formatDate(data.value, 'MM/dd/yyyy', this.locale);
+        }
+      }
     },
     {
       headerName:"Client Intervals",
       field:"client_Intervals",
-      sortable: true,filter: true, resizable: true, editable: true
+      sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true
     },
-    
-     {
-       headerName:"Client Availability",
-       field:"client_Availability",
-       sortable: true,filter: true, resizable: true, editable: true
-     },
     {
       headerName:"Client Notes",
       field:"client_Notes",
-      sortable: true,filter: true, resizable: true, editable: true
-    },
-     {
-       headerName:"Category",
-       field:"CategoryID",
-       sortable: true,filter: true, resizable: true, editable: true
-     }
+      sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
+    }
 
     
   ]
   this.defaultColDef = {
     editable: true
   };
-  this.rowData = null;
+  
+  
 }
-onGridReady(params){
-  this.gridApi=params.api;
-  this.gridColumnApi=params.columnApi;
-  this.http
-  .get("https://localhost:44301/api/client")
-  .subscribe(data=>{
-    params.api.setRowData(data)
-  })
 
+onGridReady(params){
+   this.gridApi=params.api;
+  this.gridColumnApi=params.columnApi;
+  params.api.sizeColumnsToFit();
+ }
+
+public validateControl = (controlName: string) => {
+  return this.dateRange.controls[controlName].invalid && this.dateRange.controls[controlName].touched
 }
+
+public hasError = (controlName: string, errorName: string) => {
+  return this.dateRange.controls[controlName].hasError(errorName)
+}
+
 quickSearch(){
   this.gridApi.setQuickFilter(this.searchValue);
-  console.log('test')
 }
+
+rowData: Observable<any[]>;
+
+generateReport(){
+  console.log('generatereport');
+  let startDate = this.dateRange.get('start').value;
+  let endDate = this.dateRange.get('end').value;
+  startDate = this.datePipe.transform(startDate, "MM/dd/yyyy");
+  endDate = this.datePipe.transform(endDate, "MM/dd/yyyy");
+  
+  let params = new HttpParams();
+  params = params.append ('startdate', startDate);
+  params = params.append('enddate', endDate);
+
+  this.rowData = this.http
+  .get<any>("https://localhost:44301/api/client/nextService", {headers: headers, params: params });
+  
+}
+onCellClicked(params) {
+  // Handle click event for action cells
+  if (params.column.colId === "action" && params.event.target.dataset.action) {
+    let action = params.event.target.dataset.action;
+
+    if (action === "edit") {
+      params.api.startEditingCell({
+        rowIndex: params.node.rowIndex,
+        // gets the first columnKey
+        colKey: params.columnApi.getDisplayedCenterColumns()[0].colId
+      });
+    }
+
+    if (action === "delete") {
+      params.api.applyTransaction({
+        remove: [params.node.data]
+      });
+      let id = params.data.id;
+    this.http.post<any>("https://localhost:44301/api/client/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
+    }
+
+    if (action === "update") {
+      params.api.stopEditing(false);
+      
+    }
+
+    if (action === "cancel") {
+      params.api.stopEditing(true);
+    }
+    if (action === "history") {
+      let id =params.data.id;
+      this.router.navigate(['/history/', id]);
+    }
+  }
+}
+
+onRowEditingStarted(params) {
+  params.api.refreshCells({
+    columns: ["action"],
+    rowNodes: [params.node],
+    force: true
+  });
+}
+onRowEditingStopped(params) {
+  this.gridApi=params.gridApi;
+    this.gridColumnApi=params.columnApi;
+    let id = params.data.id;
+    this.http.post<any>("https://localhost:44301/api/client/serviceconfirmation/"+id, params.data, options).subscribe();
+    
+    
+  params.api.refreshCells({
+    columns: ["action"],
+    rowNodes: [params.node],
+    force: true,
+  });
+  setTimeout(
+    function(){ 
+    location.reload(); 
+    }, 1000);
+}
+
+
 
 }

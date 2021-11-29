@@ -1,6 +1,6 @@
 {
     "/api/*": {
-        "target": "http://localhost:44301",
+        "target": "http://localhost:44301/SWAGGER",
         "secure": false,
         "logLevel": "debug"
     }

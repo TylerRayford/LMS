@@ -23,6 +23,8 @@ import { ModalComponent } from "src/app/components/modal/modal.component";
 import { DeleteComponent } from "src/app/components/delete/delete.component";
 import { MaterialModule } from "src/app/material/material.module";
 import { RegisterUserComponent } from "src/app/authentication/register-user/register-user.component";
+import { DateRangePickerModule } from "@syncfusion/ej2-angular-calendars";
+import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 
 @NgModule({
   imports: [
@@ -30,11 +32,12 @@ import { RegisterUserComponent } from "src/app/authentication/register-user/regi
     CommonModule,
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
+    DateRangePickerModule,
     HttpClientModule,
     ReactiveFormsModule,
     NgbModule,
     AgGridModule,
-    
+    NgxMatSelectSearchModule,
     MaterialModule
     /* HttpClient */
   ],
