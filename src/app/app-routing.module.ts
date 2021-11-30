@@ -33,17 +33,7 @@ const routes: Routes = [
       }
     ]
   },
-  { path: 'history/:id', component: HistoryComponent,
-  children: [
-    {
-      path: "",
-      loadChildren: () => import ("./layouts/auth-layout/auth-layout.module").then(m => m.AuthLayoutModule)
-    }
-  ] },
-  {
-    path: "**",
-    redirectTo: "login"
-  }
+  
 ];
 
 @NgModule({

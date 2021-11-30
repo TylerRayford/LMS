@@ -4,16 +4,12 @@ import { FormsModule,ReactiveFormsModule } from "@angular/forms";
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { ToastrModule } from 'ngx-toastr';
-
 import { AppComponent } from "./app.component";
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { AppRoutingModule } from "./app-routing.module";
 import { ComponentsModule } from "./components/components.module";
-
 import { AgGridModule } from 'ag-grid-angular';
 import { BrowserModule } from "@angular/platform-browser";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
@@ -45,6 +41,7 @@ import { InactiveComponent } from './pages/inactive/inactive.component';
 import { ErrorHandlerService } from "./shared/services/error-handler.service";
 import { JwtModule } from "@auth0/angular-jwt";
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { InactiveloginusersComponent } from './pages/inactiveloginusers/inactiveloginusers.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -94,7 +91,7 @@ export function tokenGetter() {
       }
     })
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent,LoginComponent, InactiveComponent, /* ReponseComponent */],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent,LoginComponent, InactiveComponent,  /* ReponseComponent */],
   
   providers: [
     {
