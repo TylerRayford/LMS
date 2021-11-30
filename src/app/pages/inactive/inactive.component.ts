@@ -11,11 +11,12 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dial
 import { ModalComponent } from "src/app/components/modal/modal.component";
 import { DeleteComponent } from "src/app/components/delete/delete.component";
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json'
-  })
-};
+let headers = new HttpHeaders({
+  'Content-Type':  'application/json',
+  'Authorization': `Bearer ${localStorage.getItem("token")}`
+});
+
+let options = {headers: headers};
 
 function actionCellRenderer(params) {
   let eGui = document.createElement("div");
@@ -151,7 +152,7 @@ export class InactiveComponent implements OnInit {
     this.gridApi=params.api;
     this.gridColumnApi=params.columnApi;
     this.http
-    .get("https://localhost:44301/api/client/getinactive")
+    .get("https://localhost:44301/api/client/getinactive", options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })
@@ -184,7 +185,7 @@ export class InactiveComponent implements OnInit {
         params.api.stopEditing(false);
         let id = params.data.id;
         params.data.client_Active = true;
-        this.http.put<any>("https://localhost:44301/api/client/"+id, httpOptions).subscribe(/* data => this.Id = data.id */);
+        this.http.put<any>("https://localhost:44301/api/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "cancel") {
@@ -207,7 +208,7 @@ export class InactiveComponent implements OnInit {
     this.gridApi=params.gridApi;
       this.gridColumnApi=params.columnApi;
       let id = params.data.id;
-      this.http.put<any>("https://localhost:44301/api/client/"+id, params.data, httpOptions).subscribe(/* data => this.Id = data.id */);
+      this.http.put<any>("https://localhost:44301/api/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
     params.api.refreshCells({
       columns: ["action"],
       rowNodes: [params.node],

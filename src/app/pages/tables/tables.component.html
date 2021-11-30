@@ -4,17 +4,27 @@
       <div class=" card card-plain">
         <div class=" card-header">Next Service</div>
         <div class=" card-body"><div class=" Next Service" id="Next Service"></div></div>
-        
-        <input type="text" placeholder="Search..." (keyup)="quickSearch()" [(ngModel)]="searchValue">
-        <style> 
-          input {
-            width: 100%;
-            height: 40px;
-            background-color: white;}
-          </style>
+
         <div>
-          
-          
+          <mat-form-field style="color: white" appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+              <input readonly matStartDate formControlName = "start" placeholder="Start date">
+              <input readonly matEndDate formControlName = "end" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker" style="color: white"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker style="color: white;"></mat-date-range-picker>
+          </mat-form-field>
+          <label *ngIf="dateRange.errors">{{ dateRange.errors?.dates | json }}</label>
+          <button (click)="generateReport();" mat-raised-button color="accent" [disabled]="!dateRange.valid">Generate</button>
+        </div>
+        
+        <!-- <div>
+        <input type="text" style="width: 100%; height: 40px; background-color: white;" placeholder="Search..." (keyup)="quickSearch()" [(ngModel)]="searchValue">
+        
+        </div> -->
+
+        <div>
           <ag-grid-angular
           style="width: 100%; height: 100%; margin-top: 10px;"
   class="ag-theme-alpine"
@@ -23,12 +33,16 @@
   [animateRows]= "true"
   domLayout='autoHeight'
   rowSelection="multiple"
-  (gridReady)="onGridReady($event)"
+  [rowData]="rowData | async"
   [defaultColDef]="defaultColDef"
+  (rowEditingStopped)="onRowEditingStopped($event)"
+  (rowEditingStarted)="onRowEditingStarted($event)"
+  (cellClicked)="onCellClicked($event)"
   editType="fullRow"
   [suppressClickEdit]="true"
   [pagination]="pagination"
-  [paginationPageSize]="paginationPageSize"       
+  [paginationPageSize]="paginationPageSize"
+  [suppressLoadingOverlay] = "true"
   >
   
 </ag-grid-angular> 

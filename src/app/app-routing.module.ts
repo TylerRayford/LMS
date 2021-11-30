@@ -5,6 +5,8 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { AuthGuard } from "./shared/guards/auth.guard";
+import { HistoryComponent } from "./pages/history/history.component";
 
 const routes: Routes = [
   {
@@ -31,6 +33,13 @@ const routes: Routes = [
       }
     ]
   },
+  { path: 'history/:id', component: HistoryComponent,
+  children: [
+    {
+      path: "",
+      loadChildren: () => import ("./layouts/auth-layout/auth-layout.module").then(m => m.AuthLayoutModule)
+    }
+  ] },
   {
     path: "**",
     redirectTo: "login"

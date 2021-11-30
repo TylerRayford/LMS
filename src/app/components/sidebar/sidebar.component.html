@@ -9,7 +9,7 @@
   </a>
 </div>
 <div class="sidebar-wrapper">
-  <ul class="nav">
+  <ul *ngIf='isUserAuthenticated' class="nav">
     <li
       routerLinkActive="active"
       *ngFor="let menuItem of menuItems"
@@ -18,6 +18,12 @@
       <a [routerLink]="[menuItem.path]">
         <i class="tim-icons  {{ menuItem.icon }}"></i>
         <p>{{ menuItem.title }}</p>
+      </a>
+    </li>
+    <li class=" nav-item"(click)="logout();" >
+      <a>
+        <i class="tim-icons tim-icons icon-settings-gear-63"></i>
+        <p>Logout</p>
       </a>
     </li>
   </ul>

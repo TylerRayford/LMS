@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { AuthenticationService } from "src/app/shared/services/authentication.service";
 
 declare interface RouteInfo {
   path: string;
@@ -28,7 +30,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "/tables",
     title: "Next Service",
-    icon: "icon-puzzle-10",
+    icon: "icon-bell-55",
     class: ""
   },
   {
@@ -38,9 +40,21 @@ export const ROUTES: RouteInfo[] = [
     class: ""
   },
   {
+    path:"history/:id",
+    title: 'Service History',
+    icon: "icon-calendar-60",
+    class: ""
+  },
+  {
     path:"/inactive",
     title: 'Inactive Clients',
-    icon: "icon-calendar-60",
+    icon: "icon-notes",
+    class: ""
+  },
+  {
+    path:"/register",
+    title: 'Register New User',
+    icon: "icon-settings-gear-63",
     class: ""
   },
   
@@ -53,12 +67,36 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
+  public isUserAuthenticated: boolean;
 
-  constructor() {}
+  constructor(private _authService: AuthenticationService, private router: Router,) {
+    this._authService.authChanged
+    .subscribe(res => {
+      console.log('res' + res);
+      this.isUserAuthenticated = res;
+      console.log('authUser' + this.isUserAuthenticated);
+    })   
 
-  ngOnInit() {
+  }
+
+  ngOnInit(): void {
+    console.log('side')
+    if (this._authService.isUserAuthenticated()){
+      console.log('authenticated');
+      this.isUserAuthenticated = true;
+      console.log('isUserAuthenticated' + this.isUserAuthenticated)
+    }
+ 
     this.menuItems = ROUTES.filter(menuItem => menuItem);
   }
+
+  logout() {
+    console.log('here');
+    this._authService.logout();
+    this._authService.sendAuthStateChangeNotification(false);
+    this.router.navigate(["/"]);
+  }
+
   isMobileMenu() {
     if (window.innerWidth > 991) {
       return false;
