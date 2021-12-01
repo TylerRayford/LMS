@@ -34,18 +34,6 @@ export const ROUTES: RouteInfo[] = [
     class: ""
   },
   {
-    path:"/history",
-    title: 'Service History',
-    icon: "icon-calendar-60",
-    class: ""
-  },
-  {
-    path:"history/:id",
-    title: 'Service History',
-    icon: "icon-calendar-60",
-    class: ""
-  },
-  {
     path:"/inactive",
     title: 'Inactive Clients',
     icon: "icon-notes",
@@ -57,6 +45,19 @@ export const ROUTES: RouteInfo[] = [
     icon: "icon-settings-gear-63",
     class: ""
   },
+  {
+    path:"/manageusers",
+    title: 'Manage Active Users',
+    icon: "icon-badge",
+    class: ""
+  },
+  {
+    path:"/inactiveloginusers",
+    title: 'Manage Inactive Users',
+    icon: "icon-simple-delete",
+    class: ""
+  },
+  
   
 ];
 

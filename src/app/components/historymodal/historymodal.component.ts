@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, LOCALE_ID, OnInit } from "@angular/core";
 import { ColDef, Module } from 'ag-grid-community';
 import { AgGridAngular } from "ag-grid-angular";
 import { catchError, Observable } from "rxjs";
@@ -10,6 +10,9 @@ import { RangeSelectionModule } from "@ag-grid-enterprise/range-selection";
 import { MatSelect } from '@angular/material/select';
 import {map, startWith} from 'rxjs/operators';
 import { ActivatedRoute } from "@angular/router";
+import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { formatDate } from "@angular/common";
+
 
 let headers = new HttpHeaders({
   'Content-Type': 'application/json',
@@ -17,18 +20,14 @@ let headers = new HttpHeaders({
 });
 
 let options = { headers: headers };
-
-export interface User {
-  name: string;
-}
-
-
-
 @Component({
-  selector: "app-history",
-  templateUrl: "history.component.html"
+  selector: 'app-historymodal',
+  templateUrl: './historymodal.component.html',
+  styleUrls: ['./historymodal.component.scss']
 })
-export class HistoryComponent implements OnInit {
+
+
+export class HistorymodalComponent implements OnInit {
   public colDefs;
   public gridApi;
   public gridColumnApi;
@@ -42,25 +41,33 @@ export class HistoryComponent implements OnInit {
   public girdColumnApi;
 
   constructor(
-    private http: HttpClient, private route: ActivatedRoute,) {
+    private http: HttpClient, 
+    private route: ActivatedRoute,
+    @Inject(MAT_DIALOG_DATA) public data: {id: string},
+    @Inject(LOCALE_ID) private locale: string
+    ) 
+    {
     this.pagination = true;
     this.paginationPageSize = 10;
   }
 
-
-  ngOnInit() {
-
-
+  ngOnInit(): void {
     this.colDefs = [
       {
         headerName: "Last Service",
         field: "last_Service",
-        sortable: true, filter: true, resizable: true, editable: true, suppressSizeToFit: false
+        sortable: true, filter: true, resizable: true, editable: true, suppressSizeToFit: false,
+        cellRenderer: (data) => {
+          return  formatDate(data.value, 'MM/dd/yyyy', this.locale);
+        }
       },
       {
         headerName: "Next Service",
         field: "next_Service",
-        sortable: true, filter: true, resizable: true, editable: true, suppressSizeToFit: true
+        sortable: true, filter: true, resizable: true, editable: true, suppressSizeToFit: false,
+        cellRenderer: (data) => {
+          return  formatDate(data.value, 'MM/dd/yyyy', this.locale);
+        }
       }
 
     ]
@@ -70,17 +77,16 @@ export class HistoryComponent implements OnInit {
     this.rowData = null;
 
   }
-  onGridReady(params) {
-    const id = this.route.snapshot.paramMap.get('id');
-    console.log('id', id);
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
+
+  onGridReady(params){
+    this.gridApi=params.api;
+    this.gridColumnApi=params.columnApi;
     params.api.sizeColumnsToFit();
     this.http
-      .get("https://localhost:44301/api/client/servicehistory/"+ id, options)
-      .subscribe(data => {
-        params.api.setRowData(data)
-      })
+    .get("https://localhost:44301/api/client/servicehistory/"+this.data.id, options)
+    .subscribe(data=>{
+      params.api.setRowData(data)
+    })
   }
 
 }

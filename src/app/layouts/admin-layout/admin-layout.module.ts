@@ -25,6 +25,9 @@ import { MaterialModule } from "src/app/material/material.module";
 import { RegisterUserComponent } from "src/app/authentication/register-user/register-user.component";
 import { DateRangePickerModule } from "@syncfusion/ej2-angular-calendars";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
+import { HistorymodalComponent } from "src/app/components/historymodal/historymodal.component";
+import { ManageusersComponent } from "src/app/pages/manageusers/manageusers.component";
+import { InactiveloginusersComponent } from "src/app/pages/inactiveloginusers/inactiveloginusers.component";
 
 @NgModule({
   imports: [
@@ -49,6 +52,9 @@ import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
     HistoryComponent,
     ModalComponent,
     DeleteComponent,
+    HistorymodalComponent,
+    ManageusersComponent,
+    InactiveloginusersComponent
     /* RegisterUserComponent */
   ]
 })

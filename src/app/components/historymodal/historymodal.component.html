@@ -1,0 +1,40 @@
+<div class=" content">
+    <div class=" row">
+      <div class=" col-md-12">
+        <div class=" card card-plain">
+          <div class=" card-header">Service History</div>
+          <div class=" card-body"><div class="Service History" id="Service History"></div></div>
+         
+          
+  
+  
+          <div>
+            <ag-grid-angular
+              style="width: 100%; height: 100%; margin-top: 10px;"
+              class="ag-theme-alpine"
+              
+              [columnDefs]="colDefs"
+              [animateRows]= "true"
+              domLayout='autoHeight'
+              rowSelection="multiple"
+              (gridReady)="onGridReady($event)"
+              [defaultColDef]="defaultColDef"
+              editType="fullRow"
+              [suppressClickEdit]="true"
+              [pagination]="pagination"
+              [paginationPageSize]="paginationPageSize"       
+              >
+            
+            </ag-grid-angular> 
+          </div>
+          <div mat-dialog-actions>
+            <button mat-button [mat-dialog-close]="" cdkFocusInitial>Ok</button>
+          </div>
+  
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

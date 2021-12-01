@@ -24,12 +24,12 @@
           <mat-grid-tile>
             <div class="text-inside">
               <mat-form-field>
-                <input matInput placeholder="Contact First and Last Name" value={{fname}} formControlName="firstname" required>
+                <input matInput placeholder="Contact Name" value={{fname}} formControlName="firstname" required>
                 <mat-error *ngIf="addCusForm.controls.firstname.hasError('required')">
                   Please enter the contact's name.
                 </mat-error>
                 <mat-error *ngIf="addCusForm.controls.firstname.hasError('pattern')">
-                  Please enter valid first name and last name.
+                  Please enter valid name.
                 </mat-error>
               </mat-form-field>
             </div>
@@ -99,10 +99,10 @@
               <mat-form-field>
                 <textarea matInput placeholder="Client Address" formControlName="address" required></textarea>
                 <mat-error *ngIf="addCusForm.controls.address.hasError('required')">
-                Please enter contact's email address.
+                Please enter contact's address.
               </mat-error>
-              <mat-error *ngIf="addCusForm.controls.address.hasError('email')">
-                Please enter valid contact's email address.
+              <mat-error *ngIf="addCusForm.controls.address.hasError('pattern')">
+                Please enter valid address.
               </mat-error>
               </mat-form-field>
             </div>
@@ -116,7 +116,22 @@
             </mat-form-field>
           </div>
         </mat-grid-tile>
-    
+
+        <mat-grid-tile>
+          <mat-form-field appearance="fill">
+            <mat-label>Service</mat-label>
+            <mat-select formControlName="service" required>
+                <mat-option *ngFor="let Service of Services" [value]="Service.value">
+                  {{Service.viewValue}}
+                </mat-option>
+              <mat-error *ngIf="addCusForm.controls.service.hasError('required')">
+                Please choose a service.
+              </mat-error>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+
         </mat-grid-list>
     
     

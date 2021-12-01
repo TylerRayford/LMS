@@ -9,6 +9,9 @@ import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-mod
 import { RangeSelectionModule } from "@ag-grid-enterprise/range-selection";
 import { DatePipe, formatDate } from "@angular/common";
 import { Router } from "@angular/router";
+import { ModalComponent } from "src/app/components/modal/modal.component";
+import { MatDialog } from "@angular/material/dialog";
+import { HistorymodalComponent } from "src/app/components/historymodal/historymodal.component";
 
 let headers = new HttpHeaders({
   'Content-Type':  'application/json',
@@ -78,7 +81,7 @@ export class TablesComponent implements OnInit {
   }
 
 
-constructor(private http: HttpClient, private datePipe: DatePipe, @Inject(LOCALE_ID) private locale: string, private router: Router,) {
+constructor(private http: HttpClient, private datePipe: DatePipe, public dialog: MatDialog ,@Inject(LOCALE_ID) private locale: string, private router: Router,) {
   this.pagination = true;
 
 // sets 10 rows per page (default is 100)
@@ -212,8 +215,15 @@ onCellClicked(params) {
     }
     if (action === "history") {
       let id =params.data.id;
-      this.router.navigate(['/history/', id]);
+      this.dialog.open(HistorymodalComponent,{
+        data: {
+          id: id
+        },
+        width: '500px',disableClose: true 
+      });
+      
     }
+    
   }
 }
 
@@ -241,7 +251,5 @@ onRowEditingStopped(params) {
     location.reload(); 
     }, 1000);
 }
-
-
 
 }

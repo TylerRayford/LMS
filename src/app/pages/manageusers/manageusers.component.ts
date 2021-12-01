@@ -13,14 +13,11 @@ import { DeleteComponent } from "src/app/components/delete/delete.component";
 import { formatDate } from "@angular/common";
 
 let headers = new HttpHeaders({
-    'Content-Type':  'application/json',
-    'Authorization': `Bearer ${localStorage.getItem("token")}`
-  });
+  'Content-Type':  'application/json',
+  'Authorization': `Bearer ${localStorage.getItem("token")}`
+});
 
 let options = {headers: headers};
-
-
-
 
 
 function actionCellRenderer(params) {
@@ -34,12 +31,11 @@ function actionCellRenderer(params) {
 
   if (isCurrentRowEditing) {
     eGui.innerHTML = `
-<button  class="action-button update"  data-action="update"> update  </button>
+<button  class="action-button update"  data-action="update"> Submit  </button>
 <button  class="action-button cancel"  data-action="cancel" > cancel </button>
 `;
   } else {
     eGui.innerHTML = `
-<button class="action-button edit"  data-action="edit" > edit  </button>
 <button class="action-button delete" data-action="delete" > delete </button>
 `;
   }
@@ -47,12 +43,12 @@ function actionCellRenderer(params) {
   return eGui;
 }
 
-
 @Component({
-  selector: "dashboard",
-  templateUrl: "./dashboard.component.html"
+  selector: 'app-manageusers',
+  templateUrl: './manageusers.component.html',
+  styleUrls: ['./manageusers.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class ManageusersComponent implements OnInit {
     public colDefs;
     public gridApi;
     public gridColumnApi;
@@ -64,8 +60,6 @@ export class DashboardComponent implements OnInit {
     public pagination;
     public components;
 
-  
-
   constructor(private http: HttpClient, public dialog: MatDialog, @Inject(LOCALE_ID) private locale: string) {
     // enables pagination in the grid
         this.pagination = true;
@@ -75,14 +69,7 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-    if (!localStorage.getItem('foo')) { 
-      localStorage.setItem('foo', 'no reload') 
-      location.reload() 
-    } else {
-      localStorage.removeItem('foo') 
-    }
-    
+  ngOnInit(): void {
     this.colDefs=[
 
       {
@@ -91,91 +78,42 @@ export class DashboardComponent implements OnInit {
         cellRenderer: actionCellRenderer,
         editable: false,
         colId: "action",
-        suppressSizeToFit: false
+        suppressSizeToFit: true
       },
       {
-        headerName:"Client Name",
-        field:"client_Name",
+        headerName:"Username",
+        field:"userName",
+        sortable: true,filter: true, resizable: true, editable: false,suppressSizeToFit: false
+      },
+      {
+        headerName:"First Name",
+        field:"firstName",
         sortable: true,filter: true, resizable: true,suppressSizeToFit: false
       },
       {
-        headerName:"Address",
-        field:"client_Address",
+        headerName:"Last Name",
+        field:"lastName",
         sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
       },
-      {
-        headerName:"Intervals",
-        field:"client_Intervals",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true
-      },
-      {
-        headerName:"Next Service",
-        field:"client_Next_Service_Date",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true,
-        cellRenderer: (data) => {
-          return  formatDate(data.value, 'MM/dd/yyyy', this.locale);
-        }
-      },
-      {
-        headerName:"Service",
-        field:"client_Service",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
-      },
-      {
-        headerName:"Notes",
-        field:"client_Notes",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
-      },
-      {
-        headerName:"Contact Name",
-        field:"client_Contact_Name",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
-      },
-      {
-        headerName:"Contact Email",
-        field:"client_Contact_Email",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false/* ,cellRenderer: (params) => {
-          var link = document.createElement('a');
-          link.href = '#';
-          link.innerText = params.value;
-          link.addEventListener('click', (e) => {
-              e.preventDefault();
-              console.log(params.data.id);
-          });
-          return link;
-        } */
-      },
-      {
-        headerName:"Phone Number",
-        field:"client_Phone_Number",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
-      },
-      
-      
     ]
     this.defaultColDef = {
       editable: true
     };
+    /* this.components = { datePicker: getDatePicker() }; */
     this.rowData = null;
-    /* this.colDefs.cellRenderer = function(params) {
-      return '<b>' + params.value.toUpperCase() + '</b>';
-  } */
-
   }
-  
   onGridReady(params){
     this.gridApi=params.api;
     this.gridColumnApi=params.columnApi;
     params.api.sizeColumnsToFit();
     this.http
-    .get("https://localhost:44301/api/client", options)
+    .get("https://localhost:44301/api/accounts/ActiveUsers", options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })
+    
 
   }
-  
-  // Search Bar TS
   quickSearch(){
     this.gridApi.setQuickFilter(this.searchValue);
     
@@ -198,7 +136,7 @@ export class DashboardComponent implements OnInit {
           remove: [params.node.data]
         });
         let id = params.data.id;
-      this.http.post<any>("https://localhost:44301/api/client/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
+      this.http.post<any>("https://localhost:44301/api/accounts/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "update") {
@@ -213,6 +151,10 @@ export class DashboardComponent implements OnInit {
 
   }
   
+  /* onRowClicked(event: any) {
+
+    this.dialog.open(ModalComponent);
+  } */
 
   onRowEditingStarted(params) {
     params.api.refreshCells({
@@ -227,7 +169,7 @@ export class DashboardComponent implements OnInit {
     this.gridApi=params.gridApi;
       this.gridColumnApi=params.columnApi;
       let id = params.data.id;
-      this.http.put<any>("https://localhost:44301/api/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+      this.http.put<any>("https://localhost:44301/api/accounts/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
     params.api.refreshCells({
       columns: ["action"],
       rowNodes: [params.node],
@@ -238,14 +180,5 @@ export class DashboardComponent implements OnInit {
       location.reload(); 
       }, 1000);
   }
-  
-  openDialog(): void {
-    const dialogRef = this.dialog.open(ModalComponent,{
-      width: '640px',disableClose: true 
-      
-    });
-
-  }
 
 }
-  

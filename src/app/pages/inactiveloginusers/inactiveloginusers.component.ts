@@ -42,12 +42,13 @@ function actionCellRenderer(params) {
   return eGui;
 }
 
+
 @Component({
-  selector: 'app-inactive',
-  templateUrl: './inactive.component.html',
-  styleUrls: ['./inactive.component.scss']
+  selector: 'app-inactiveloginusers',
+  templateUrl: './inactiveloginusers.component.html',
+  styleUrls: ['./inactiveloginusers.component.scss']
 })
-export class InactiveComponent implements OnInit {
+export class InactiveloginusersComponent implements OnInit {
   public colDefs;
   public gridApi;
   public gridColumnApi;
@@ -59,7 +60,6 @@ export class InactiveComponent implements OnInit {
   public pagination;
   public components;
 
-
   constructor(private http: HttpClient, public dialog: MatDialog) { 
     // enables pagination in the grid
     this.pagination = true;
@@ -68,91 +68,44 @@ export class InactiveComponent implements OnInit {
     this.paginationPageSize = 10;
   }
 
-  ngOnInit(): void {
-    this.colDefs=[
+  ngOnInit(): void {this.colDefs=[
 
-      {
-        headerName: "action",
-        minWidth: 150,
-        cellRenderer: actionCellRenderer,
-        editable: false,
-        colId: "action"
-      },
-      {
-        headerName:"Client Name",
-        field:"client_Name",
-        sortable: true,filter: true, resizable: true, /* checkboxSelection: true */ editable:false
-      },
-      {
-        headerName:"Address",
-        field:"client_Address",
-        sortable: true,filter: true, resizable: true, editable: false
-      },
-      /* {
-        headerName:"Region",
-        field:"client_Region",
-        sortable: true,filter: true, resizable: true, editable: true
-      },
-      {
-        headerName:"Zip Code",
-        field:"client_Zip_Code",
-        sortable: true,filter: true, resizable: true, editable: true
-      }, */
-      {
-        headerName:"Contact Name",
-        field:"client_Contact_Name",
-        sortable: true,filter: true, resizable: true, editable: false
-      },
-      {
-        headerName:"Contact Email",
-        field:"client_Contact_Email",
-        sortable: true,filter: true, resizable: true, editable: false
-      },
-      {
-        headerName:"Phone Number",
-        field:"client_Phone_Number",
-        sortable: true,filter: true, resizable: true, editable: false
-      },
-      {
-        headerName:"Active",
-        field:"client_Active",
-        sortable: true,filter: true, resizable: true, editable: false
-      },
-      {
-        headerName:"Service",
-        field:"client_Next_Service_Date",
-        sortable: true,filter: true, resizable: true, editable: false,cellEditor: 'datePicker'
-      },
-      {
-        headerName:"Intervals",
-        field:"client_Intervals",
-        sortable: true,filter: true, resizable: true, editable: false
-      },
-      
-      /* {
-        headerName:"Availability",
-        field:"client_Availability",
-        sortable: true,filter: true, resizable: true, editable: true
-      }, */
-      {
-        headerName:"Notes",
-        field:"client_Notes",
-        sortable: true,filter: true, resizable: true, editable: true
-      },
-      
-    ]
-    this.defaultColDef = {
-      editable: true
-    };
-    /* this.components = { datePicker: getDatePicker() }; */
-    this.rowData = null;
+    {
+      headerName: "action",
+      minWidth: 150,
+      cellRenderer: actionCellRenderer,
+      editable: false,
+      colId: "action"
+    },
+    {
+      headerName:"Username",
+      field:"userName",
+      sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
+    },
+    {
+      headerName:"First Name",
+      field:"firstName",
+      sortable: true,filter: true, resizable: true,suppressSizeToFit: false
+    },
+    {
+      headerName:"Last Name",
+      field:"lastName",
+      sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
+    },
+    
+  ]
+  this.defaultColDef = {
+    editable: true
+  };
+  /* this.components = { datePicker: getDatePicker() }; */
+  this.rowData = null;
   }
-
+  
   onGridReady(params){
     this.gridApi=params.api;
     this.gridColumnApi=params.columnApi;
     this.http
-    .get("https://localhost:44301/api/client/getinactive", options)
+    .get("https://localhost:44301/api/accounts/getinactiveusers", options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })
@@ -184,8 +137,8 @@ export class InactiveComponent implements OnInit {
       if (action === "Submit") {
         params.api.stopEditing(false);
         let id = params.data.id;
-        params.data.client_Active = true;
-        this.http.put<any>("https://localhost:44301/api/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+        /* params.data.Active = true; */
+        this.http.put<any>("https://localhost:44301/api/accounts/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "cancel") {
@@ -194,8 +147,8 @@ export class InactiveComponent implements OnInit {
     }
 
   }
-  
-  
+
+
 
   onRowEditingStarted(params) {
     params.api.refreshCells({
@@ -208,7 +161,7 @@ export class InactiveComponent implements OnInit {
     this.gridApi=params.gridApi;
       this.gridColumnApi=params.columnApi;
       let id = params.data.id;
-      this.http.put<any>("https://localhost:44301/api/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+      
     params.api.refreshCells({
       columns: ["action"],
       rowNodes: [params.node],
@@ -219,18 +172,7 @@ export class InactiveComponent implements OnInit {
       location.reload(); 
       }, 1000);
   }
-  
-  openDialog(): void {
-    const dialogRef = this.dialog.open(ModalComponent,{
-      width: '640px',disableClose: true 
-      
-    });
-
-  }
-
 
 
 
 }
-
-

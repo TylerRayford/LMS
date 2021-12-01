@@ -10,10 +10,12 @@ import { DeleteComponent } from './delete/delete.component';
 import { MaterialModule } from "../material/material.module";
 import { DialogComponent } from './dialog/dialog.component';
 import { SavedialogComponent } from './savedialog/savedialog.component';
+import { HistorymodalComponent } from './historymodal/historymodal.component';
+import { LinkComponent } from './link/link.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, NgbModule,MaterialModule],
-  declarations: [FooterComponent, NavbarComponent, SidebarComponent, DialogComponent, SavedialogComponent, /* ModalComponent, DeleteComponent */],
+  declarations: [FooterComponent, NavbarComponent, SidebarComponent, DialogComponent, SavedialogComponent, LinkComponent, /* HistorymodalComponent, */ /* ModalComponent, DeleteComponent */],
   exports: [FooterComponent, NavbarComponent, SidebarComponent]
 })
 export class ComponentsModule {}

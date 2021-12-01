@@ -7,11 +7,17 @@ import { MatRadioButton } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule  } from "@angular/forms";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json'
-  })
-};
+interface Service {
+  value: string;
+  viewValue: string;
+}
+
+let headers = new HttpHeaders({
+  'Content-Type':  'application/json',
+  'Authorization': `Bearer ${localStorage.getItem("token")}`
+});
+
+let options = {headers: headers};
 
 @Component({
   selector: 'app-modal',
@@ -28,6 +34,15 @@ export class ModalComponent implements OnInit {
   public phone: string = ``;
   public interval: number;
   public notes: string = ``;
+  public service: string ='';
+
+  Services: Service[] = [
+    {value: 'First Aid', viewValue: 'First Aid'},
+    {value: 'AED', viewValue: 'AED'},
+    {value: 'Eye Wash', viewValue: 'Eye Wash'},
+    {value: 'Oxygen Tanks', viewValue: 'Oxygen Tanks'},
+    {value: 'Drop Ship', viewValue: 'Drop Ship'},
+  ];
 
   public addCusForm: FormGroup;
   wasFormChanged = false;
@@ -49,6 +64,7 @@ export class ModalComponent implements OnInit {
       interval: [this.interval, [Validators.required, Validators.pattern("^[0-9]+$")]],
       /* notes: [this.notes, [Validators.required, Validators.pattern('[a-zA-Z]+([a-zA-Z ]+)*')]], */
       address: [this.address, [Validators.required, Validators.pattern('^[a-zA-Z0-9_ ]*$')]],
+      service: [this.service, [Validators.required]]
     });
     this.breakpoint = window.innerWidth <= 600 ? 1 : 2; // Breakpoint observer code 
   }
@@ -87,12 +103,12 @@ export class ModalComponent implements OnInit {
 
   closeDialog(params){
 
-    if(this.addCusForm.get('firstname').value == "" || this.addCusForm.get('clientname').value == "" || this.addCusForm.get('phone').value == "" || this.addCusForm.get('interval').value == "" || this.addCusForm.get('email').value == "" || this.addCusForm.get('address').value == ""){
+    if(this.addCusForm.get('firstname').value == "" || this.addCusForm.get('clientname').value == "" || this.addCusForm.get('phone').value == "" || this.addCusForm.get('interval').value == ""|| this.addCusForm.get('service').value == "" || this.addCusForm.get('email').value == "" || this.addCusForm.get('address').value == ""){
       console.log('fname' + this.addCusForm.get('firstname').value)
       console.log('clientname' + this.clientname)
     }
     else{
-      this.http.post<any>("https://localhost:44301/api/client/", JSON.stringify({client_name: this.addCusForm.get('clientname').value, Client_Contact_Name: this.addCusForm.get('firstname').value,Client_Contact_Number: this.addCusForm.get('phone').value,Client_Contact_Email: this.addCusForm.get('email').value,Client_Address: this.addCusForm.get('address').value,Client_Intervals: this.addCusForm.get('interval').value}), httpOptions).subscribe(/* data => this.Id = data.id */);
+      this.http.post<any>("https://localhost:44301/api/client/", JSON.stringify({client_name: this.addCusForm.get('clientname').value, Client_Contact_Name: this.addCusForm.get('firstname').value,Client_Contact_Number: this.addCusForm.get('phone').value,Client_Contact_Email: this.addCusForm.get('email').value,Client_Address: this.addCusForm.get('address').value,Client_Intervals: this.addCusForm.get('interval').value,Client_Service: this.addCusForm.get('service').value}), options).subscribe(/* data => this.Id = data.id */);
       console.log("Save")
       this.dialog.closeAll();
       setTimeout(
