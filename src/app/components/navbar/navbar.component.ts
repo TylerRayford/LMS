@@ -4,6 +4,8 @@ import { Location } from "@angular/common";
 import { Router } from "@angular/router";
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from "src/app/shared/services/authentication.service";
+import { MatDialog } from "@angular/material/dialog";
+import { HelpmodalComponent } from "../helpmodal/helpmodal.component";
 
 @Component({
   selector: "app-navbar",
@@ -27,7 +29,8 @@ export class NavbarComponent implements OnInit {
     location: Location,
     private element: ElementRef,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    public dialog: MatDialog
   ) {
     this.location = location;
     this.sidebarVisible = false;
@@ -175,7 +178,19 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(["/"]);
     this.isUserAuthenticated = false;
   }
+/*   openDialog(): void {
+    const dialogRef = this.dialog.open(HelpmodalComponent,{
+      width: '640px',disableClose: true 
+      
+    });
 
+  }
+
+  closeDialog(){
+      this.dialog.closeAll();
+    
+  }
+ */
   getTitle() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
     if (titlee.charAt(0) === "#") {

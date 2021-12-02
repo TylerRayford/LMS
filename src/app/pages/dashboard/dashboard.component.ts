@@ -11,6 +11,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dial
 import { ModalComponent } from "src/app/components/modal/modal.component";
 import { DeleteComponent } from "src/app/components/delete/delete.component";
 import { formatDate } from "@angular/common";
+import { EditmodalComponent } from "src/app/components/editmodal/editmodal.component";
+import { HelpmodalComponent } from "src/app/components/helpmodal/helpmodal.component";
 
 let headers = new HttpHeaders({
     'Content-Type':  'application/json',
@@ -66,7 +68,7 @@ export class DashboardComponent implements OnInit {
 
   
 
-  constructor(private http: HttpClient, public dialog: MatDialog, @Inject(LOCALE_ID) private locale: string) {
+  constructor(private http: HttpClient, public dialog: MatDialog, @Inject(LOCALE_ID) private locale: string,public modal: MatDialog) {
     // enables pagination in the grid
         this.pagination = true;
 
@@ -147,7 +149,7 @@ export class DashboardComponent implements OnInit {
       },
       {
         headerName:"Phone Number",
-        field:"client_Phone_Number",
+        field:"client_Contact_Number",
         sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
       },
       
@@ -184,11 +186,14 @@ export class DashboardComponent implements OnInit {
       let action = params.event.target.dataset.action;
 
       if (action === "edit") {
-        params.api.startEditingCell({
-          rowIndex: params.node.rowIndex,
-          // gets the first columnKey
-          colKey: params.columnApi.getDisplayedCenterColumns()[0].colId
+        let id =params.data.id;
+        this.dialog.open(EditmodalComponent,{
+          data: {
+            id: id
+          },
+          width: '500px',disableClose: true 
         });
+        
       }
 
       if (action === "delete") {
@@ -244,6 +249,20 @@ export class DashboardComponent implements OnInit {
     });
 
   }
+
+  openModal(): void {
+    console.log('help')
+    const dialogRef = this.modal.open(HelpmodalComponent,{
+      width: '640px',disableClose: true 
+      
+    });
+
+  }
+
+  /* closeModal(){
+      this.dialog.closeAll();
+    
+  } */
 
 }
   

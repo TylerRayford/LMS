@@ -28,6 +28,7 @@ import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { HistorymodalComponent } from "src/app/components/historymodal/historymodal.component";
 import { ManageusersComponent } from "src/app/pages/manageusers/manageusers.component";
 import { InactiveloginusersComponent } from "src/app/pages/inactiveloginusers/inactiveloginusers.component";
+import { EditmodalComponent } from "src/app/components/editmodal/editmodal.component";
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import { InactiveloginusersComponent } from "src/app/pages/inactiveloginusers/in
     DeleteComponent,
     HistorymodalComponent,
     ManageusersComponent,
-    InactiveloginusersComponent
+    InactiveloginusersComponent,
+    EditmodalComponent
     /* RegisterUserComponent */
   ]
 })

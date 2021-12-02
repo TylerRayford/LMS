@@ -185,7 +185,11 @@ export class InactiveComponent implements OnInit {
         params.api.stopEditing(false);
         let id = params.data.id;
         params.data.client_Active = true;
-        this.http.put<any>("https://localhost:44301/api/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+        this.http.post<any>("https://localhost:44301/api/client/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+        setTimeout(
+          function(){ 
+          location.reload(); 
+          }, 1000);
       }
 
       if (action === "cancel") {
@@ -208,7 +212,7 @@ export class InactiveComponent implements OnInit {
     this.gridApi=params.gridApi;
       this.gridColumnApi=params.columnApi;
       let id = params.data.id;
-      this.http.put<any>("https://localhost:44301/api/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+      this.http.put<any>("https://localhost:44301/api/client/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
     params.api.refreshCells({
       columns: ["action"],
       rowNodes: [params.node],

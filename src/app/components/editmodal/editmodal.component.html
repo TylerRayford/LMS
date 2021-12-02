@@ -1,0 +1,165 @@
+<div>
+    <div class="add-title">
+      <h2 class="primary">Add Client</h2>
+    </div>
+    
+    <div>
+      <form [formGroup]="addCusForm" (change)="formChanged()">
+        <mat-grid-list cols="2" [cols]="breakpoint" rowHeight="100px" (window:resize)="onResize($event)">
+    
+          <mat-grid-tile>
+          <div class="text-inside">
+            <mat-form-field>
+                  <input matInput placeholder="Client Name" value={{clientname}} formControlName="clientname" required>
+                  <mat-error *ngIf="addCusForm.controls.firstname.hasError('required')">
+                    Please enter client name.
+                  </mat-error>
+                  <mat-error *ngIf="addCusForm.controls.firstname.hasError('pattern')">
+                    Please enter valid client name.
+                  </mat-error>
+                </mat-form-field>
+          </div>
+          </mat-grid-tile>
+      
+            <mat-grid-tile>
+              <div class="text-inside">
+                <mat-form-field>
+                  <input matInput placeholder="Contact Name" value={{fname}} formControlName="firstname" required>
+                  <mat-error *ngIf="addCusForm.controls.firstname.hasError('required')">
+                    Please enter the contact's name.
+                  </mat-error>
+                  <mat-error *ngIf="addCusForm.controls.firstname.hasError('pattern')">
+                    Please enter valid name.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+      
+            <mat-grid-tile>
+              <div class="text-inside">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Contact Phone Number" value={{phone}} formControlName="phone" required>
+                  <mat-error *ngIf="addCusForm.controls.phone.hasError('required')">
+                    Please enter contact's phone number.
+                  </mat-error>
+                  <mat-error *ngIf="addCusForm.controls.phone.hasError('pattern')">
+                    Please enter valid contact's phone number.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+      
+            <mat-grid-tile>
+            <div class="text-inside">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Service Interval (in days)" value={{interval}} formControlName="interval" required>
+                <mat-error *ngIf="addCusForm.controls.interval.hasError('required')">
+                  Please enter the service interval.
+                </mat-error>
+                <mat-error *ngIf="addCusForm.controls.interval.hasError('pattern')">
+                  Please enter valid the service interval.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+      
+          
+      
+      
+        
+            <!-- <mat-grid-tile>
+              <div class="text-inside">
+                <mat-form-field>
+                  <input matInput [matDatepicker]="picker1" placeholder="Date of birth">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile> -->
+      
+      
+            <mat-grid-tile>
+              <div class="text-inside">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Email address" formControlName="email" value={{email}} required>
+                  <mat-error *ngIf="addCusForm.controls.email.hasError('required')">
+                    Please enter contact's email address.
+                  </mat-error>
+                  <mat-error *ngIf="addCusForm.controls.email.hasError('email')">
+                    Please enter valid contact's email address.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+      
+      
+          
+            <mat-grid-tile>
+              <div class="text-inside">
+                <mat-form-field>
+                  <textarea matInput placeholder="Client Address" formControlName="address" value={{address}} required></textarea>
+                  <mat-error *ngIf="addCusForm.controls.address.hasError('required')">
+                  Please enter contact's address.
+                </mat-error>
+                <mat-error *ngIf="addCusForm.controls.address.hasError('pattern')">
+                  Please enter valid address.
+                </mat-error>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+              <mat-form-field>
+                <mat-label>Service</mat-label>
+                <mat-select formControlName="service" required>
+                    <mat-option *ngFor="let Service of Services" [value]="Service.value">
+                      {{Service.viewValue}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="addCusForm.controls.service.hasError('required')">
+                  Please choose a service.
+                </mat-error>
+              </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile >
+              <div class="text-inside">
+                <label style="font-size:11px">Next Service Date *</label>
+                <input type="date" name="date"formControlName="nextservicedate" [ngModel]="nextservicedate">
+              </div>
+            </mat-grid-tile>
+      
+      
+            <mat-grid-tile>
+            <div class="text-inside">
+              <mat-form-field>
+                <textarea matInput placeholder="Notes" value={{notes}} formControlName="notes" required></textarea>
+                <mat-error *ngIf="addCusForm.controls.notes.hasError('required')">
+                  Enter "None" if blank.
+                </mat-error>
+                <mat-error *ngIf="addCusForm.controls.notes.hasError('pattern')">
+                  Enter "None" if blank.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+
+
+        </mat-grid-list>
+      
+      
+          
+      
+          
+      
+          <div class="btn-sec">
+            <button mat-raised-button color="primary" class="Update-btn" (click)="closeDialog($event)">Save</button>
+            <button mat-raised-button type="button" class="Discard-btn" (click)="openDialog()">Cancel</button>
+          </div>
+    
+      </form>
+    </div>
+    </div>
+    
+    

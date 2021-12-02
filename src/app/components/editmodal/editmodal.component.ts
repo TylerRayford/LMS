@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DeleteComponent } from '../delete/delete.component';
@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MatRadioButton } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule  } from "@angular/forms";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { formatDate } from '@angular/common';
 
 interface Service {
   value: string;
@@ -20,11 +21,11 @@ let headers = new HttpHeaders({
 let options = {headers: headers};
 
 @Component({
-  selector: 'app-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  selector: 'app-editmodal',
+  templateUrl: './editmodal.component.html',
+  styleUrls: ['./editmodal.component.scss']
 })
-export class ModalComponent implements OnInit {
+export class EditmodalComponent implements OnInit {
   public breakpoint: number; // Breakpoint observer code
   public clientname: string =``;
   public fname: string = ``;
@@ -35,8 +36,10 @@ export class ModalComponent implements OnInit {
   public interval: number;
   public notes: string = ``;
   public service: string ='';
-  public firstservicedate: string = "";
+  public clientData;
+  public nextservicedate: string = '';
 
+  
   Services: Service[] = [
     {value: 'First Aid', viewValue: 'First Aid'},
     {value: 'AED', viewValue: 'AED'},
@@ -47,34 +50,61 @@ export class ModalComponent implements OnInit {
 
   public addCusForm: FormGroup;
   wasFormChanged = false;
+
   
+
   constructor(
     private fb: FormBuilder,
     public dialog: MatDialog,
-    private http: HttpClient
+    private http: HttpClient,
+    @Inject(MAT_DIALOG_DATA) public data: {id: string},
+    @Inject(LOCALE_ID) private locale: string
   ) { }
 
-  public ngOnInit(): void {
+  ngOnInit(): void{
     this.addCusForm = this.fb.group({
       IdProof: null,
-      firstname: [this.fname, [Validators.required]],
-      /* lastname: [this.lname, [Validators.required, Validators.pattern('[a-zA-Z]+([a-zA-Z ]+)*')]], */
+      firstname: [this.fname],
       email: [null, [Validators.required, Validators.email]],
-      clientname: [this.clientname, [Validators.required]],
+      clientname: [this.clientname],
       phone: [this.phone, [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       interval: [this.interval, [Validators.required, Validators.pattern("^[0-9]+$")]],
       notes: [this.notes],
       address: [this.address, [Validators.required, Validators.pattern('^[a-zA-Z0-9_ ]*$')]],
       service: [this.service, [Validators.required]],
-      firstservicedate: [this.firstservicedate, [Validators.required]]
+      nextservicedate: [this.nextservicedate, [Validators.required]],
     });
+
+        
     this.breakpoint = window.innerWidth <= 600 ? 1 : 2; // Breakpoint observer code 
+
+    this.getCustomer();
+        
+  }
+
+  public getCustomer() {
+    this.http
+    .get("https://localhost:44301/api/client/"+this.data.id, options)
+    .subscribe(data=>{
+      this.clientData = data;
+      this.addCusForm.patchValue({
+        firstname: this.clientData.client_Contact_Name,
+        email: this.clientData.client_Contact_Email,
+        clientname: this.clientData.client_Name,
+        phone: this.clientData.client_Contact_Number,
+        interval: this.clientData.client_Intervals,
+        address: this.clientData.client_Address,
+        notes: this.clientData.client_Notes,
+        service: this.clientData.client_Service,
+        nextservicedate: formatDate(this.clientData.client_Next_Service_Date, 'yyyy-MM-dd', this.locale)
+      })
+    })
   }
 
   public onAddCus(): void {
     this.markAsDirty(this.addCusForm);
+    
   }
-
   openDialog(): void {
     console.log(this.wasFormChanged);
     if(this.addCusForm.dirty) {
@@ -105,12 +135,13 @@ export class ModalComponent implements OnInit {
 
   closeDialog(params){
 
-    if(this.addCusForm.get('firstname').value == "" || this.addCusForm.get('clientname').value == "" || this.addCusForm.get('phone').value == ""|| this.addCusForm.get('firstservicedate').value == ""|| /* this.addCusForm.get('notes').value == "" || */ this.addCusForm.get('interval').value == ""|| this.addCusForm.get('service').value == "" || this.addCusForm.get('email').value == "" || this.addCusForm.get('address').value == ""){
-      console.log('fname' + this.addCusForm.get('firstname').value)
-      console.log('clientname' + this.clientname)
-    }
-    else{
-      this.http.post<any>("https://localhost:44301/api/client/", JSON.stringify({client_name: this.addCusForm.get('clientname').value, Client_Contact_Name: this.addCusForm.get('firstname').value, Client_Next_Service_Date: this.addCusForm.get('firstservicedate').value, Client_Notes: this.addCusForm.get('notes').value,Client_Contact_Number: this.addCusForm.get('phone').value,Client_Contact_Email: this.addCusForm.get('email').value,Client_Address: this.addCusForm.get('address').value,Client_Intervals: this.addCusForm.get('interval').value,Client_Service: this.addCusForm.get('service').value}), options).subscribe(/* data => this.Id = data.id */);
+    // if(this.addCusForm.get('nextservicedate').value == ""/* ||this.addCusForm.get('firstname').value == "" || this.addCusForm.get('clientname').value == "" || this.addCusForm.get('phone').value == "" || this.addCusForm.get('interval').value == ""|| this.addCusForm.get('nextservicedate').value == ""|| this.addCusForm.get('service').value == "" || this.addCusForm.get('email').value == ""|| this.addCusForm.get('notes').value == "" || this.addCusForm.get('address').value == "" */){
+      
+    // }
+    // else{
+      let client = params.data;
+      
+      this.http.put<any>("https://localhost:44301/api/client/" +this.data.id, JSON.stringify({Client_Name: this.addCusForm.get('clientname').value, Client_Next_Service_Date: this.addCusForm.get('nextservicedate').value, Client_Contact_Name: this.addCusForm.get('firstname').value,Client_Notes: this.addCusForm.get('notes').value,Client_Contact_Number: this.addCusForm.get('phone').value,Client_Contact_Email: this.addCusForm.get('email').value,Client_Address: this.addCusForm.get('address').value,Client_Intervals: this.addCusForm.get('interval').value,Client_Service: this.addCusForm.get('service').value}), options).subscribe(/* data => this.Id = data.id */);
       console.log("Save")
       this.dialog.closeAll();
       setTimeout(
@@ -119,21 +150,6 @@ export class ModalComponent implements OnInit {
         }, 1000);
   
     }
-    
-    
-}
+  
 
-    /* closeDialog(){
-      if(this.addCusForm.invalid){
-        
-      }
-      else{
-        console.log("Save")
-      console.log(this.addCusForm)
-      this.dialog.closeAll();
-      }
-
-    } */
-
-    
 }

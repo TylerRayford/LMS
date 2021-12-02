@@ -109,10 +109,16 @@
           </mat-grid-tile>
     
     
-          <mat-grid-tile>
+        <mat-grid-tile>
           <div class="text-inside">
-            <mat-form-field class="example-full-width">
-              <textarea matInput placeholder="Notes" value={{notes}} formControlName="notes" ></textarea>
+            <mat-form-field>
+              <textarea matInput placeholder="Notes" value={{notes}} formControlName="notes" required></textarea>
+              <mat-error *ngIf="addCusForm.controls.notes.hasError('required')">
+                Please enter Notes or type "None".
+              </mat-error>
+              <mat-error *ngIf="addCusForm.controls.notes.hasError('pattern')">
+                Please enter Notes or type "None".
+              </mat-error>
             </mat-form-field>
           </div>
         </mat-grid-tile>
@@ -124,13 +130,29 @@
                 <mat-option *ngFor="let Service of Services" [value]="Service.value">
                   {{Service.viewValue}}
                 </mat-option>
-              <mat-error *ngIf="addCusForm.controls.service.hasError('required')">
-                Please choose a service.
-              </mat-error>
             </mat-select>
+            <mat-error *ngIf="addCusForm.controls.service.hasError('required')">
+              Please choose a service.
+            </mat-error>
           </mat-form-field>
         </mat-grid-tile>
 
+        <mat-grid-tile>
+          <mat-form-field appearance="fill" class="example-form-field">
+            <mat-label>Choose a first service date</mat-label>
+            <input matInput [matDatepicker]="datepicker" formControlName="firstservicedate" required [value]="firstservicedate">
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+
+            <mat-datepicker #datepicker>
+
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+              </mat-datepicker-actions>
+
+            </mat-datepicker>
+          </mat-form-field>
+        </mat-grid-tile>
 
         </mat-grid-list>
     
