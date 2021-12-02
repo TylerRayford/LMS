@@ -105,7 +105,7 @@ export class InactiveloginusersComponent implements OnInit {
     this.gridApi=params.api;
     this.gridColumnApi=params.columnApi;
     this.http
-    .get("https://localhost:44301/api/accounts/getinactiveusers", options)
+    .get("https://larsonmedicalapi.azurewebsites.net/api/accounts/getinactiveusers", options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })
@@ -138,7 +138,7 @@ export class InactiveloginusersComponent implements OnInit {
         params.api.stopEditing(false);
         let id = params.data.id;
         /* params.data.Active = true; */
-        this.http.put<any>("https://localhost:44301/api/accounts/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+        this.http.put<any>("https://larsonmedicalapi.azurewebsites.net/api/accounts/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "cancel") {

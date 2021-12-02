@@ -1,6 +1,6 @@
 {
     "/api/*": {
-        "target": "http://localhost:44301/SWAGGER",
+        "target": "https://larsonmedicalapi.azurewebsites.net",
         "secure": false,
         "logLevel": "debug"
     }

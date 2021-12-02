@@ -107,7 +107,7 @@ export class ManageusersComponent implements OnInit {
     this.gridColumnApi=params.columnApi;
     params.api.sizeColumnsToFit();
     this.http
-    .get("https://localhost:44301/api/accounts/ActiveUsers", options)
+    .get("https://larsonmedicalapi.azurewebsites.net/api/accounts/ActiveUsers", options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })
@@ -136,7 +136,7 @@ export class ManageusersComponent implements OnInit {
           remove: [params.node.data]
         });
         let id = params.data.id;
-      this.http.post<any>("https://localhost:44301/api/accounts/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
+      this.http.post<any>("https://larsonmedicalapi.azurewebsites.net/api/accounts/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "update") {
@@ -169,7 +169,7 @@ export class ManageusersComponent implements OnInit {
     this.gridApi=params.gridApi;
       this.gridColumnApi=params.columnApi;
       let id = params.data.id;
-      this.http.put<any>("https://localhost:44301/api/accounts/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+      this.http.put<any>("https://larsonmedicalapi.azurewebsites.net/api/accounts/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
     params.api.refreshCells({
       columns: ["action"],
       rowNodes: [params.node],

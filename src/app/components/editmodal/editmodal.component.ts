@@ -84,7 +84,7 @@ export class EditmodalComponent implements OnInit {
 
   public getCustomer() {
     this.http
-    .get("https://localhost:44301/api/client/"+this.data.id, options)
+    .get("https://larsonmedicalapi.azurewebsites.net/api/client/"+this.data.id, options)
     .subscribe(data=>{
       this.clientData = data;
       this.addCusForm.patchValue({
@@ -141,7 +141,7 @@ export class EditmodalComponent implements OnInit {
     // else{
       let client = params.data;
       
-      this.http.put<any>("https://localhost:44301/api/client/" +this.data.id, JSON.stringify({Client_Name: this.addCusForm.get('clientname').value, Client_Next_Service_Date: this.addCusForm.get('nextservicedate').value, Client_Contact_Name: this.addCusForm.get('firstname').value,Client_Notes: this.addCusForm.get('notes').value,Client_Contact_Number: this.addCusForm.get('phone').value,Client_Contact_Email: this.addCusForm.get('email').value,Client_Address: this.addCusForm.get('address').value,Client_Intervals: this.addCusForm.get('interval').value,Client_Service: this.addCusForm.get('service').value}), options).subscribe(/* data => this.Id = data.id */);
+      this.http.put<any>("https://larsonmedicalapi.azurewebsites.net/api/client/" +this.data.id, JSON.stringify({Client_Name: this.addCusForm.get('clientname').value, Client_Next_Service_Date: this.addCusForm.get('nextservicedate').value, Client_Contact_Name: this.addCusForm.get('firstname').value,Client_Notes: this.addCusForm.get('notes').value,Client_Contact_Number: this.addCusForm.get('phone').value,Client_Contact_Email: this.addCusForm.get('email').value,Client_Address: this.addCusForm.get('address').value,Client_Intervals: this.addCusForm.get('interval').value,Client_Service: this.addCusForm.get('service').value}), options).subscribe(/* data => this.Id = data.id */);
       console.log("Save")
       this.dialog.closeAll();
       setTimeout(

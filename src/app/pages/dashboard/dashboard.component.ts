@@ -170,7 +170,7 @@ export class DashboardComponent implements OnInit {
     this.gridColumnApi=params.columnApi;
     params.api.sizeColumnsToFit();
     this.http
-    .get("https://localhost:44301/api/client", options)
+    .get("https://larsonmedicalapi.azurewebsites.net/api/client", options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })
@@ -201,7 +201,7 @@ export class DashboardComponent implements OnInit {
           remove: [params.node.data]
         });
         let id = params.data.id;
-      this.http.post<any>("https://localhost:44301/api/client/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
+      this.http.post<any>("https://larsonmedicalapi.azurewebsites.net/api/client/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "update") {
@@ -230,7 +230,7 @@ export class DashboardComponent implements OnInit {
     this.gridApi=params.gridApi;
       this.gridColumnApi=params.columnApi;
       let id = params.data.id;
-      this.http.put<any>("https://localhost:44301/api/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+      this.http.put<any>("https://larsonmedicalapi.azurewebsites.net/api/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
     params.api.refreshCells({
       columns: ["action"],
       rowNodes: [params.node],

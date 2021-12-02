@@ -76,7 +76,7 @@ export class HistoryComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
     this.http
-      .get("https://localhost:44301/api/client/servicehistory/"+ id, options)
+      .get("https://larsonmedicalapi.azurewebsites.net/api/client/servicehistory/"+ id, options)
       .subscribe(data => {
         params.api.setRowData(data)
       })

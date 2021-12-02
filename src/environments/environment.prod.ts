@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  urlAddress: 'https://localhost:44301/'
+  urlAddress: 'https://larsonmedicalapi.azurewebsites.net/'
 };

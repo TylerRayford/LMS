@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
   //       }
 
   //       this.loading = true;
-  //       this.http.post<any>("https://localhost:44301/api/accounts/login", JSON.stringify({username: this.f.username.value, password: this.f.password.value}), httpOptions).subscribe(/* data => this.Id = data.id */);
+  //       this.http.post<any>("https://larsonmedicalapi.azurewebsites.net/api/accounts/login", JSON.stringify({username: this.f.username.value, password: this.f.password.value}), httpOptions).subscribe(/* data => this.Id = data.id */);
   //   }
   //   openDialog(): void {
   //     const dialogRef = this.dialog.open(DialogComponent,{
@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
       email: login.username,
       password: login.password
     }
-    this._authService.loginUser('api/accounts/login', userForAuth)
+    this._authService.loginUser('https://larsonmedicalapi.azurewebsites.net/api/accounts/login', userForAuth)
     .subscribe(res => {
        localStorage.setItem("token", res["token"]);
        this._authService.sendAuthStateChangeNotification(true);

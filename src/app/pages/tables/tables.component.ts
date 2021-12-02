@@ -181,7 +181,7 @@ generateReport(){
   params = params.append('enddate', endDate);
 
   this.rowData = this.http
-  .get<any>("https://localhost:44301/api/client/nextService", {headers: headers, params: params });
+  .get<any>("https://larsonmedicalapi.azurewebsites.net/api/client/nextService", {headers: headers, params: params });
   
 }
 onCellClicked(params) {
@@ -202,7 +202,7 @@ onCellClicked(params) {
         remove: [params.node.data]
       });
       let id = params.data.id;
-    this.http.post<any>("https://localhost:44301/api/client/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
+    this.http.post<any>("https://larsonmedicalapi.azurewebsites.net/api/client/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
     }
 
     if (action === "update") {
@@ -238,7 +238,7 @@ onRowEditingStopped(params) {
   this.gridApi=params.gridApi;
     this.gridColumnApi=params.columnApi;
     let id = params.data.id;
-    this.http.post<any>("https://localhost:44301/api/client/serviceconfirmation/"+id, params.data, options).subscribe();
+    this.http.post<any>("https://larsonmedicalapi.azurewebsites.net/api/client/serviceconfirmation/"+id, params.data, options).subscribe();
     
     
   params.api.refreshCells({
