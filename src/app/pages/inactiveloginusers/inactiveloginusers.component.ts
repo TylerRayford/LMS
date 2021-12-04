@@ -10,6 +10,7 @@ import { RangeSelectionModule } from "@ag-grid-enterprise/range-selection";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ModalComponent } from "src/app/components/modal/modal.component";
 import { DeleteComponent } from "src/app/components/delete/delete.component";
+import { environment } from "../../../environments/environment";
 
 let headers = new HttpHeaders({
   'Content-Type':  'application/json',
@@ -59,6 +60,7 @@ export class InactiveloginusersComponent implements OnInit {
   public paginationPageSize;
   public pagination;
   public components;
+  baseURL = environment.urlAddress;
 
   constructor(private http: HttpClient, public dialog: MatDialog) { 
     // enables pagination in the grid
@@ -105,7 +107,7 @@ export class InactiveloginusersComponent implements OnInit {
     this.gridApi=params.api;
     this.gridColumnApi=params.columnApi;
     this.http
-    .get("https://larsonmedicalapi.azurewebsites.net/api/accounts/getinactiveusers", options)
+    .get(this.baseURL + "/accounts/getinactiveusers", options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })
@@ -138,7 +140,7 @@ export class InactiveloginusersComponent implements OnInit {
         params.api.stopEditing(false);
         let id = params.data.id;
         /* params.data.Active = true; */
-        this.http.put<any>("https://larsonmedicalapi.azurewebsites.net/api/accounts/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+        this.http.put<any>(this.baseURL + "/accounts/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "cancel") {

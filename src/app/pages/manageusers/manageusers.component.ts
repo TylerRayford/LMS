@@ -11,6 +11,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dial
 import { ModalComponent } from "src/app/components/modal/modal.component";
 import { DeleteComponent } from "src/app/components/delete/delete.component";
 import { formatDate } from "@angular/common";
+import { environment } from "../../../environments/environment";
 
 let headers = new HttpHeaders({
   'Content-Type':  'application/json',
@@ -59,6 +60,7 @@ export class ManageusersComponent implements OnInit {
     public paginationPageSize;
     public pagination;
     public components;
+    baseURL = environment.urlAddress;
 
   constructor(private http: HttpClient, public dialog: MatDialog, @Inject(LOCALE_ID) private locale: string) {
     // enables pagination in the grid
@@ -107,7 +109,7 @@ export class ManageusersComponent implements OnInit {
     this.gridColumnApi=params.columnApi;
     params.api.sizeColumnsToFit();
     this.http
-    .get("https://larsonmedicalapi.azurewebsites.net/api/accounts/ActiveUsers", options)
+    .get(this.baseURL + "/accounts/ActiveUsers", options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })
@@ -136,7 +138,7 @@ export class ManageusersComponent implements OnInit {
           remove: [params.node.data]
         });
         let id = params.data.id;
-      this.http.post<any>("https://larsonmedicalapi.azurewebsites.net/api/accounts/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
+      this.http.post<any>(this.baseURL + "/accounts/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "update") {
@@ -169,7 +171,7 @@ export class ManageusersComponent implements OnInit {
     this.gridApi=params.gridApi;
       this.gridColumnApi=params.columnApi;
       let id = params.data.id;
-      this.http.put<any>("https://larsonmedicalapi.azurewebsites.net/api/accounts/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+      this.http.put<any>(this.baseURL + "/accounts/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
     params.api.refreshCells({
       columns: ["action"],
       rowNodes: [params.node],

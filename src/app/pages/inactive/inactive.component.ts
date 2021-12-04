@@ -9,7 +9,8 @@ import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-mod
 import { RangeSelectionModule } from "@ag-grid-enterprise/range-selection";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ModalComponent } from "src/app/components/modal/modal.component";
-import { DeleteComponent } from "src/app/components/delete/delete.component";
+import { environment } from "../../../environments/environment";
+import { RestoredialogComponent } from "src/app/components/restoredialog/restoredialog.component";
 
 let headers = new HttpHeaders({
   'Content-Type':  'application/json',
@@ -58,6 +59,7 @@ export class InactiveComponent implements OnInit {
   public paginationPageSize;
   public pagination;
   public components;
+  baseURL = environment.urlAddress;
 
 
   constructor(private http: HttpClient, public dialog: MatDialog) { 
@@ -81,23 +83,13 @@ export class InactiveComponent implements OnInit {
       {
         headerName:"Client Name",
         field:"client_Name",
-        sortable: true,filter: true, resizable: true, /* checkboxSelection: true */ editable:false
+        sortable: true,filter: true, resizable: true,editable:false
       },
       {
         headerName:"Address",
         field:"client_Address",
         sortable: true,filter: true, resizable: true, editable: false
       },
-      /* {
-        headerName:"Region",
-        field:"client_Region",
-        sortable: true,filter: true, resizable: true, editable: true
-      },
-      {
-        headerName:"Zip Code",
-        field:"client_Zip_Code",
-        sortable: true,filter: true, resizable: true, editable: true
-      }, */
       {
         headerName:"Contact Name",
         field:"client_Contact_Name",
@@ -121,7 +113,7 @@ export class InactiveComponent implements OnInit {
       {
         headerName:"Service",
         field:"client_Next_Service_Date",
-        sortable: true,filter: true, resizable: true, editable: false,cellEditor: 'datePicker'
+        sortable: true,filter: true, resizable: true, editable: false,
       },
       {
         headerName:"Intervals",
@@ -129,11 +121,6 @@ export class InactiveComponent implements OnInit {
         sortable: true,filter: true, resizable: true, editable: false
       },
       
-      /* {
-        headerName:"Availability",
-        field:"client_Availability",
-        sortable: true,filter: true, resizable: true, editable: true
-      }, */
       {
         headerName:"Notes",
         field:"client_Notes",
@@ -144,7 +131,6 @@ export class InactiveComponent implements OnInit {
     this.defaultColDef = {
       editable: true
     };
-    /* this.components = { datePicker: getDatePicker() }; */
     this.rowData = null;
   }
 
@@ -152,7 +138,7 @@ export class InactiveComponent implements OnInit {
     this.gridApi=params.api;
     this.gridColumnApi=params.columnApi;
     this.http
-    .get("https://larsonmedicalapi.azurewebsites.net/api/client/getinactive", options)
+    .get(this.baseURL + "/client/getinactive", options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })
@@ -160,7 +146,6 @@ export class InactiveComponent implements OnInit {
   }
   quickSearch(){
     this.gridApi.setQuickFilter(this.searchValue);
-    console.log('test')
   }
   onCellClicked(params) {
     // Handle click event for action cells
@@ -168,11 +153,17 @@ export class InactiveComponent implements OnInit {
       let action = params.event.target.dataset.action;
 
       if (action === "Restore") {
-        params.api.startEditingCell({
-          rowIndex: params.node.rowIndex,
-          // gets the first columnKey
-          colKey: params.columnApi.getDisplayedCenterColumns()[0].colId
+        let id =params.data.id;
+        this.http.post<any>(this.baseURL + "/client/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+        this.dialog.open(RestoredialogComponent,{
+          width: '500px',disableClose: true 
+          
         });
+        setTimeout(
+          function(){ 
+          location.reload(); 
+          }, 1000);
+        
       }
 
       if (action === "delete") {
@@ -185,7 +176,7 @@ export class InactiveComponent implements OnInit {
         params.api.stopEditing(false);
         let id = params.data.id;
         params.data.client_Active = true;
-        this.http.post<any>("https://larsonmedicalapi.azurewebsites.net/api/client/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+        this.http.post<any>(this.baseURL + "/client/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
         setTimeout(
           function(){ 
           location.reload(); 
@@ -212,7 +203,7 @@ export class InactiveComponent implements OnInit {
     this.gridApi=params.gridApi;
       this.gridColumnApi=params.columnApi;
       let id = params.data.id;
-      this.http.put<any>("https://larsonmedicalapi.azurewebsites.net/api/client/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+      this.http.put<any>(this.baseURL + "/client/restore/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
     params.api.refreshCells({
       columns: ["action"],
       rowNodes: [params.node],

@@ -42,6 +42,7 @@ import { ErrorHandlerService } from "./shared/services/error-handler.service";
 import { JwtModule } from "@auth0/angular-jwt";
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { InactiveloginusersComponent } from './pages/inactiveloginusers/inactiveloginusers.component';
+import { GooglemapsComponent } from './pages/googlemaps/googlemaps.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -91,7 +92,7 @@ export function tokenGetter() {
       }
     })
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent,LoginComponent, InactiveComponent,  /* ReponseComponent */],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent,LoginComponent, InactiveComponent],
   
   providers: [
     {

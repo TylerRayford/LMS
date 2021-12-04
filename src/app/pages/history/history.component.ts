@@ -10,6 +10,7 @@ import { RangeSelectionModule } from "@ag-grid-enterprise/range-selection";
 import { MatSelect } from '@angular/material/select';
 import {map, startWith} from 'rxjs/operators';
 import { ActivatedRoute } from "@angular/router";
+import { environment } from "../../../environments/environment";
 
 let headers = new HttpHeaders({
   'Content-Type': 'application/json',
@@ -39,6 +40,7 @@ export class HistoryComponent implements OnInit {
   public pagination;
   public gridOptions;
   public girdColumnApi;
+  baseURL = environment.urlAddress;
 
   constructor(
     private http: HttpClient, private route: ActivatedRoute,) {
@@ -76,7 +78,7 @@ export class HistoryComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
     this.http
-      .get("https://larsonmedicalapi.azurewebsites.net/api/client/servicehistory/"+ id, options)
+      .get(this.baseURL + "/client/servicehistory/"+ id, options)
       .subscribe(data => {
         params.api.setRowData(data)
       })

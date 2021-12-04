@@ -13,6 +13,7 @@ import { DeleteComponent } from "src/app/components/delete/delete.component";
 import { formatDate } from "@angular/common";
 import { EditmodalComponent } from "src/app/components/editmodal/editmodal.component";
 import { HelpmodalComponent } from "src/app/components/helpmodal/helpmodal.component";
+import { environment } from "../../../environments/environment";
 
 let headers = new HttpHeaders({
     'Content-Type':  'application/json',
@@ -65,6 +66,7 @@ export class DashboardComponent implements OnInit {
     public paginationPageSize;
     public pagination;
     public components;
+    baseURL = environment.urlAddress;
 
   
 
@@ -170,7 +172,7 @@ export class DashboardComponent implements OnInit {
     this.gridColumnApi=params.columnApi;
     params.api.sizeColumnsToFit();
     this.http
-    .get("https://larsonmedicalapi.azurewebsites.net/api/client", options)
+    .get(this.baseURL + "/client", options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })
@@ -201,7 +203,7 @@ export class DashboardComponent implements OnInit {
           remove: [params.node.data]
         });
         let id = params.data.id;
-      this.http.post<any>("https://larsonmedicalapi.azurewebsites.net/api/client/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
+      this.http.post<any>(this.baseURL + "/client/delete/"+id,null, options).subscribe(/* data => this.Id = data.id */);
       }
 
       if (action === "update") {
@@ -230,7 +232,7 @@ export class DashboardComponent implements OnInit {
     this.gridApi=params.gridApi;
       this.gridColumnApi=params.columnApi;
       let id = params.data.id;
-      this.http.put<any>("https://larsonmedicalapi.azurewebsites.net/api/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
+      this.http.put<any>(this.baseURL + "/client/"+id, params.data, options).subscribe(/* data => this.Id = data.id */);
     params.api.refreshCells({
       columns: ["action"],
       rowNodes: [params.node],

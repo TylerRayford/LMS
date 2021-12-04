@@ -12,6 +12,7 @@ import {map, startWith} from 'rxjs/operators';
 import { ActivatedRoute } from "@angular/router";
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { formatDate } from "@angular/common";
+import { environment } from "../../../environments/environment";
 
 
 let headers = new HttpHeaders({
@@ -39,6 +40,7 @@ export class HistorymodalComponent implements OnInit {
   public pagination;
   public gridOptions;
   public girdColumnApi;
+  baseURl = environment.urlAddress;
 
   constructor(
     private http: HttpClient, 
@@ -83,7 +85,7 @@ export class HistorymodalComponent implements OnInit {
     this.gridColumnApi=params.columnApi;
     params.api.sizeColumnsToFit();
     this.http
-    .get("https://larsonmedicalapi.azurewebsites.net/api/client/servicehistory/"+this.data.id, options)
+    .get(this.baseURl + "/client/servicehistory/"+this.data.id, options)
     .subscribe(data=>{
       params.api.setRowData(data)
     })

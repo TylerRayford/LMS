@@ -56,7 +56,7 @@ export class RegisterUserComponent implements OnInit {
     };
 
     
-    this._authService.registerUser("api/accounts/registration", user)
+    this._authService.registerUser("/accounts/registration", user)
     .subscribe(_ => {
       
       this.openDialog();

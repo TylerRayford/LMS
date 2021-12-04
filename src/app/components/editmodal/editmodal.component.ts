@@ -7,6 +7,7 @@ import { MatRadioButton } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule  } from "@angular/forms";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { formatDate } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 interface Service {
   value: string;
@@ -38,6 +39,7 @@ export class EditmodalComponent implements OnInit {
   public service: string ='';
   public clientData;
   public nextservicedate: string = '';
+  baseUrl = environment.urlAddress;
 
   
   Services: Service[] = [
@@ -84,7 +86,7 @@ export class EditmodalComponent implements OnInit {
 
   public getCustomer() {
     this.http
-    .get("https://larsonmedicalapi.azurewebsites.net/api/client/"+this.data.id, options)
+    .get(this.baseUrl + "/client/"+this.data.id, options)
     .subscribe(data=>{
       this.clientData = data;
       this.addCusForm.patchValue({
@@ -141,7 +143,7 @@ export class EditmodalComponent implements OnInit {
     // else{
       let client = params.data;
       
-      this.http.put<any>("https://larsonmedicalapi.azurewebsites.net/api/client/" +this.data.id, JSON.stringify({Client_Name: this.addCusForm.get('clientname').value, Client_Next_Service_Date: this.addCusForm.get('nextservicedate').value, Client_Contact_Name: this.addCusForm.get('firstname').value,Client_Notes: this.addCusForm.get('notes').value,Client_Contact_Number: this.addCusForm.get('phone').value,Client_Contact_Email: this.addCusForm.get('email').value,Client_Address: this.addCusForm.get('address').value,Client_Intervals: this.addCusForm.get('interval').value,Client_Service: this.addCusForm.get('service').value}), options).subscribe(/* data => this.Id = data.id */);
+      this.http.put<any>(this.baseUrl + "/client/" +this.data.id, JSON.stringify({Client_Name: this.addCusForm.get('clientname').value, Client_Next_Service_Date: this.addCusForm.get('nextservicedate').value, Client_Contact_Name: this.addCusForm.get('firstname').value,Client_Notes: this.addCusForm.get('notes').value,Client_Contact_Number: this.addCusForm.get('phone').value,Client_Contact_Email: this.addCusForm.get('email').value,Client_Address: this.addCusForm.get('address').value,Client_Intervals: this.addCusForm.get('interval').value,Client_Service: this.addCusForm.get('service').value}), options).subscribe(/* data => this.Id = data.id */);
       console.log("Save")
       this.dialog.closeAll();
       setTimeout(

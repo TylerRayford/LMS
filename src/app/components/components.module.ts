@@ -14,10 +14,11 @@ import { HistorymodalComponent } from './historymodal/historymodal.component';
 import { LinkComponent } from './link/link.component';
 import { EditmodalComponent } from './editmodal/editmodal.component';
 import { HelpmodalComponent } from './helpmodal/helpmodal.component';
+import { RestoredialogComponent } from './restoredialog/restoredialog.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, NgbModule,MaterialModule],
-  declarations: [FooterComponent, NavbarComponent, SidebarComponent, DialogComponent, SavedialogComponent, LinkComponent, HelpmodalComponent, /* HistorymodalComponent, */ /* ModalComponent, DeleteComponent */],
+  declarations: [FooterComponent, NavbarComponent, SidebarComponent, DialogComponent, SavedialogComponent, LinkComponent, HelpmodalComponent, RestoredialogComponent, /* HistorymodalComponent, */ /* ModalComponent, DeleteComponent */],
   exports: [FooterComponent, NavbarComponent, SidebarComponent]
 })
 export class ComponentsModule {}

@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
       email: login.username,
       password: login.password
     }
-    this._authService.loginUser('https://larsonmedicalapi.azurewebsites.net/api/accounts/login', userForAuth)
+    this._authService.loginUser('/accounts/login', userForAuth)
     .subscribe(res => {
        localStorage.setItem("token", res["token"]);
        this._authService.sendAuthStateChangeNotification(true);

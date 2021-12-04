@@ -1,12 +1,53 @@
-
 <div class=" content">
   <div class=" row">
     <div class=" col-md-12">
       <div class=" card card-plain">
         <div class=" card-header">Google Maps</div>
-        <div class=" card-body"><div class=" map" id="map"></div></div>
         
+    
+        <div class=" card-body">
+        
+          <div style="display: none">
+            <input
+              id="origin-input"
+              class="controls"
+              type="text"
+              placeholder="Enter an origin location"
+            />
+      
+            <input
+              id="destination-input"
+              class="controls"
+              type="text"
+              placeholder="Enter a destination location"
+            />
+      
+            <div id="mode-selector" class="controls">
+              <input
+                type="radio"
+                name="type"
+                id="changemode-walking"
+                checked="checked"
+              />
+              <label for="changemode-walking">Walking</label>
+      
+              <input type="radio" name="type" id="changemode-transit" />
+              <label for="changemode-transit">Transit</label>
+      
+              <input type="radio" name="type" id="changemode-driving" />
+              <label for="changemode-driving">Driving</label>
+            </div>
+          </div>
+           
+        <div class=" map" id="map"></div></div>
+    
+        <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+        <script
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWp745huLqpGYuk_jVhlAhaS_H12Pl0MI&callback=initMap&libraries=places&v=weekly"
+          async
+        ></script>
+    
+          </div>
       </div>
     </div>
   </div>
-</div>

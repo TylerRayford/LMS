@@ -81,7 +81,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('side')
+
     if (this._authService.isUserAuthenticated()){
       console.log('authenticated');
       this.isUserAuthenticated = true;
@@ -92,7 +92,6 @@ export class SidebarComponent implements OnInit {
   }
 
   logout() {
-    console.log('here');
     this._authService.logout();
     this._authService.sendAuthStateChangeNotification(false);
     this.router.navigate(["/"]);

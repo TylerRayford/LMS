@@ -1,6 +1,6 @@
 {
     "/api/*": {
-        "target": "https://larsonmedicalapi.azurewebsites.net",
+        "target": "",
         "secure": false,
         "logLevel": "debug"
     }
