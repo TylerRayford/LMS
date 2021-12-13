@@ -15,10 +15,17 @@ import { LinkComponent } from './link/link.component';
 import { EditmodalComponent } from './editmodal/editmodal.component';
 import { HelpmodalComponent } from './helpmodal/helpmodal.component';
 import { RestoredialogComponent } from './restoredialog/restoredialog.component';
+import { NextservicehelpmodalComponent } from './nextservicehelpmodal/nextservicehelpmodal.component';
+import { MaphelpmodalComponent } from './maphelpmodal/maphelpmodal.component';
+import { InactiveclientshelpmodalComponent } from './inactiveclientshelpmodal/inactiveclientshelpmodal.component';
+import { RegiseruserhelpmodalComponent } from './regiseruserhelpmodal/regiseruserhelpmodal.component';
+import { InactiveusershelpmodalComponent } from './inactiveusershelpmodal/inactiveusershelpmodal.component';
+import { ManageusershelpmodalComponent } from './manageusershelpmodal/manageusershelpmodal.component';
+import { ManageinactiveusershelpmodalComponent } from './manageinactiveusershelpmodal/manageinactiveusershelpmodal.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, NgbModule,MaterialModule],
-  declarations: [FooterComponent, NavbarComponent, SidebarComponent, DialogComponent, SavedialogComponent, LinkComponent, HelpmodalComponent, RestoredialogComponent, /* HistorymodalComponent, */ /* ModalComponent, DeleteComponent */],
+  declarations: [FooterComponent, NavbarComponent, SidebarComponent, DialogComponent, SavedialogComponent, LinkComponent, HelpmodalComponent, RestoredialogComponent, NextservicehelpmodalComponent, MaphelpmodalComponent, InactiveclientshelpmodalComponent, RegiseruserhelpmodalComponent, InactiveusershelpmodalComponent, ManageusershelpmodalComponent, ManageinactiveusershelpmodalComponent, /* HistorymodalComponent, */ /* ModalComponent, DeleteComponent */],
   exports: [FooterComponent, NavbarComponent, SidebarComponent]
 })
 export class ComponentsModule {}

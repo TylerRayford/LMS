@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { RegisterUserComponent } from "src/app/authentication/register-user/register-user.component";
-import { GooglemapsComponent } from "src/app/pages/googlemaps/googlemaps.component";
+
 import { HistoryComponent } from "src/app/pages/history/history.component";
 import { InactiveComponent } from "src/app/pages/inactive/inactive.component";
 import { InactiveloginusersComponent } from "src/app/pages/inactiveloginusers/inactiveloginusers.component";

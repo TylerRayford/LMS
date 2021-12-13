@@ -11,6 +11,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dial
 import { ModalComponent } from "src/app/components/modal/modal.component";
 import { DeleteComponent } from "src/app/components/delete/delete.component";
 import { environment } from "../../../environments/environment";
+import { ManageusershelpmodalComponent } from "src/app/components/manageusershelpmodal/manageusershelpmodal.component";
+import { ManageinactiveusershelpmodalComponent } from "src/app/components/manageinactiveusershelpmodal/manageinactiveusershelpmodal.component";
 
 let headers = new HttpHeaders({
   'Content-Type':  'application/json',
@@ -62,7 +64,7 @@ export class InactiveloginusersComponent implements OnInit {
   public components;
   baseURL = environment.urlAddress;
 
-  constructor(private http: HttpClient, public dialog: MatDialog) { 
+  constructor(private http: HttpClient, public dialog: MatDialog,public modal: MatDialog) { 
     // enables pagination in the grid
     this.pagination = true;
 
@@ -73,7 +75,7 @@ export class InactiveloginusersComponent implements OnInit {
   ngOnInit(): void {this.colDefs=[
 
     {
-      headerName: "action",
+      headerName: "",
       minWidth: 150,
       cellRenderer: actionCellRenderer,
       editable: false,
@@ -173,6 +175,14 @@ export class InactiveloginusersComponent implements OnInit {
       function(){ 
       location.reload(); 
       }, 1000);
+  }
+  openModal(): void {
+    console.log('help')
+    const dialogRef = this.modal.open(ManageinactiveusershelpmodalComponent,{
+      width: '640px',disableClose: true 
+      
+    });
+
   }
 
 

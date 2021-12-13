@@ -66,7 +66,7 @@ export class ModalComponent implements OnInit {
       phone: [this.phone, [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       interval: [this.interval, [Validators.required, Validators.pattern("^[0-9]+$")]],
       notes: [this.notes],
-      address: [this.address, [Validators.required, Validators.pattern('^[a-zA-Z0-9_ ]*$')]],
+      address: [this.address, [Validators.required]],
       service: [this.service, [Validators.required]],
       firstservicedate: [this.firstservicedate, [Validators.required]]
     });
@@ -106,9 +106,9 @@ export class ModalComponent implements OnInit {
   }
 
   closeDialog(params){
-
-    if(this.addCusForm.get('firstname').value == "" || this.addCusForm.get('clientname').value == "" || this.addCusForm.get('phone').value == ""|| this.addCusForm.get('firstservicedate').value == ""|| /* this.addCusForm.get('notes').value == "" || */ this.addCusForm.get('interval').value == ""|| this.addCusForm.get('service').value == "" || this.addCusForm.get('email').value == "" || this.addCusForm.get('address').value == ""){
-      console.log('fname' + this.addCusForm.get('firstname').value)
+    console.log('fname' + this.addCusForm.get('interval').value)
+    if(this.addCusForm.get('firstname').value == "" || this.addCusForm.get('clientname').value == "" || this.addCusForm.get('phone').value == ""|| this.addCusForm.get('firstservicedate').value == ""|| /* this.addCusForm.get('notes').value == "" || */ this.addCusForm.get('interval').value == null|| this.addCusForm.get('service').value == "" || this.addCusForm.get('email').value == "" || this.addCusForm.get('address').value == ""){
+      
       console.log('clientname' + this.clientname)
     }
     else{

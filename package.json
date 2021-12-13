@@ -90,6 +90,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.0",
     "jquery-datepicker": "^1.12.3",
+    "ngx-google-places-autocomplete": "^2.0.5",
     "ngx-mat-select-search": "^3.3.3",
     "ngx-toastr": "14.0.0",
     "rxjs": "7.2.0",

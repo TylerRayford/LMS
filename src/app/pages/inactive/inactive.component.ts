@@ -11,6 +11,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dial
 import { ModalComponent } from "src/app/components/modal/modal.component";
 import { environment } from "../../../environments/environment";
 import { RestoredialogComponent } from "src/app/components/restoredialog/restoredialog.component";
+import { InactiveclientshelpmodalComponent } from "src/app/components/inactiveclientshelpmodal/inactiveclientshelpmodal.component";
 
 let headers = new HttpHeaders({
   'Content-Type':  'application/json',
@@ -62,7 +63,8 @@ export class InactiveComponent implements OnInit {
   baseURL = environment.urlAddress;
 
 
-  constructor(private http: HttpClient, public dialog: MatDialog) { 
+  constructor(private http: HttpClient, public dialog: MatDialog,public modal: MatDialog
+    ) { 
     // enables pagination in the grid
     this.pagination = true;
 
@@ -74,7 +76,7 @@ export class InactiveComponent implements OnInit {
     this.colDefs=[
 
       {
-        headerName: "action",
+        headerName: "",
         minWidth: 150,
         cellRenderer: actionCellRenderer,
         editable: false,
@@ -217,6 +219,14 @@ export class InactiveComponent implements OnInit {
   
   openDialog(): void {
     const dialogRef = this.dialog.open(ModalComponent,{
+      width: '640px',disableClose: true 
+      
+    });
+
+  }
+  openModal(): void {
+    console.log('help')
+    const dialogRef = this.modal.open(InactiveclientshelpmodalComponent,{
       width: '640px',disableClose: true 
       
     });

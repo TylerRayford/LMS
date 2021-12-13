@@ -5,15 +5,16 @@
         <div class=" card-header">Google Maps</div>
         
     
-        <div class=" card-body">
+        <div class=" card-body" style="background-color: white !important;">
         
-          <div style="display: none">
+          <div style="display: none;  ">
             <input
               id="origin-input"
               class="controls"
               type="text"
               placeholder="Enter an origin location"
             />
+            
       
             <input
               id="destination-input"
@@ -38,8 +39,16 @@
               <label for="changemode-driving">Driving</label>
             </div>
           </div>
+          <div class=" map" id="map"></div>
+          <div style=" overflow-y: auto; ">
+            <div id="sidebar" >
+              <!-- <p>Total Distance: <span id="total"></span></p> -->
+              <div id="panel"></div>
+            </div>
+          </div>
+        </div>
            
-        <div class=" map" id="map"></div></div>
+        <!-- <div class=" map" id="map"></div></div> -->
     
         <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
         <script
@@ -48,6 +57,9 @@
         ></script>
     
           </div>
+          <div>
+            <a mat-button color="accent" href="https://docs.google.com/document/d/19DdnHUUQa3leXgftYEspf4QwI18OmSPq/edit#heading=h.17dp8vu">Help</a>
+            </div>
       </div>
     </div>
   </div>

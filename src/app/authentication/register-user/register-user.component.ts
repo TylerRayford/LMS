@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { PasswordConfirmationValidatorService } from 'src/app/shared/custom-validators/password-confirmation-validator.service';
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { RegiseruserhelpmodalComponent } from 'src/app/components/regiseruserhelpmodal/regiseruserhelpmodal.component';
 
 @Component({
   selector: 'app-register-user',
@@ -18,7 +19,7 @@ export class RegisterUserComponent implements OnInit {
   public errorMessage: string = '';
   public showError: boolean;
   constructor(private _authService: AuthenticationService, private _passConfValidator: PasswordConfirmationValidatorService,
-    private _router: Router, public dialog: MatDialog) { }
+    private _router: Router, public dialog: MatDialog,public modal: MatDialog) { }
 
 
   ngOnInit(): void {
@@ -74,6 +75,14 @@ export class RegisterUserComponent implements OnInit {
       const dialogRef = this.dialog.open(DialogComponent,{
         width: '300px',disableClose: true 
       });
+  }
+  openModal(): void {
+    console.log('help')
+    const dialogRef = this.modal.open(RegiseruserhelpmodalComponent,{
+      width: '640px',disableClose: true 
+      
+    });
+
   }
   
 

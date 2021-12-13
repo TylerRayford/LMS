@@ -12,6 +12,7 @@ import { ModalComponent } from "src/app/components/modal/modal.component";
 import { DeleteComponent } from "src/app/components/delete/delete.component";
 import { formatDate } from "@angular/common";
 import { environment } from "../../../environments/environment";
+import { ManageusershelpmodalComponent } from "src/app/components/manageusershelpmodal/manageusershelpmodal.component";
 
 let headers = new HttpHeaders({
   'Content-Type':  'application/json',
@@ -62,7 +63,7 @@ export class ManageusersComponent implements OnInit {
     public components;
     baseURL = environment.urlAddress;
 
-  constructor(private http: HttpClient, public dialog: MatDialog, @Inject(LOCALE_ID) private locale: string) {
+  constructor(private http: HttpClient, public dialog: MatDialog, @Inject(LOCALE_ID) private locale: string,public modal: MatDialog) {
     // enables pagination in the grid
         this.pagination = true;
 
@@ -181,6 +182,14 @@ export class ManageusersComponent implements OnInit {
       function(){ 
       location.reload(); 
       }, 1000);
+  }
+  openModal(): void {
+    console.log('help')
+    const dialogRef = this.modal.open(ManageusershelpmodalComponent,{
+      width: '640px',disableClose: true 
+      
+    });
+
   }
 
 }

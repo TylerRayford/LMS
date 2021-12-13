@@ -13,6 +13,8 @@ import { ModalComponent } from "src/app/components/modal/modal.component";
 import { MatDialog } from "@angular/material/dialog";
 import { HistorymodalComponent } from "src/app/components/historymodal/historymodal.component";
 import { environment } from "../../../environments/environment";
+import { googlemapsComponent } from "../googlemaps/googlemaps.component";
+import { NextservicehelpmodalComponent } from "src/app/components/nextservicehelpmodal/nextservicehelpmodal.component";
 
 let headers = new HttpHeaders({
   'Content-Type':  'application/json',
@@ -39,6 +41,7 @@ function actionCellRenderer(params) {
     eGui.innerHTML = `
 <button class="action-button edit"  data-action="edit" > Serviced  </button>
 <button class="action-button edit"  data-action="history" > History  </button>
+<button class="action-button edit"  data-action="directions" > Directions  </button>
 `;
   }
 
@@ -60,8 +63,9 @@ export class TablesComponent implements OnInit {
   private Id;
   public paginationPageSize;
   public pagination;
+  public destinationAddress;
   baseURL = environment.urlAddress;
-  
+    
   dateRange = new FormGroup({
     start: new FormControl('', [Validators.required]),
     end: new FormControl('', [Validators.required])
@@ -83,7 +87,7 @@ export class TablesComponent implements OnInit {
   }
 
 
-constructor(private http: HttpClient, private datePipe: DatePipe, public dialog: MatDialog ,@Inject(LOCALE_ID) private locale: string, private router: Router,) {
+constructor(private http: HttpClient, private datePipe: DatePipe, public dialog: MatDialog ,@Inject(LOCALE_ID) private locale: string, private router: Router,public modal: MatDialog) {
   this.pagination = true;
 
 // sets 10 rows per page (default is 100)
@@ -96,11 +100,12 @@ ngOnInit() {
   this.colDefs=[
     {
       headerName: "",
-      minWidth: 150,
+      minWidth: 320,
       cellRenderer: actionCellRenderer,
       editable: false,
       colId: "action",
-      suppressSizeToFit: false
+      suppressSizeToFit: false,
+      resizable: false
     },
     {
       headerName:"Client Name",
@@ -117,7 +122,10 @@ ngOnInit() {
       field:"client_Last_Service_Date",
       sortable: true,filter: true, resizable: true, editable: false,
       cellRenderer: (data) => {
-        return  formatDate(data.value, 'MM/dd/yyyy', this.locale);
+        console.log('date' + data.value);
+        if(data.value !== '0001-01-01T00:00:00') {
+          return  formatDate(data.value, 'MM/dd/yyyy', this.locale);
+        }
       }
     },
     {
@@ -125,7 +133,6 @@ ngOnInit() {
       field:"client_Next_Service_Date",
       sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true,
       cellRenderer: (data) => {
-        console.log('date' + data.value);
         if(data.value !== '1900-01-01T00:00:00') {
           return  formatDate(data.value, 'MM/dd/yyyy', this.locale);
         }
@@ -185,6 +192,7 @@ generateReport(){
   this.rowData = this.http
   .get<any>(this.baseURL + "/client/nextService", {headers: headers, params: params });
   
+  
 }
 onCellClicked(params) {
   // Handle click event for action cells
@@ -225,6 +233,16 @@ onCellClicked(params) {
       });
       
     }
+    if (action === "directions") {
+      let address =params.data.client_Address;
+      this.dialog.open(googlemapsComponent,{
+        data: {
+            destinationAddress: address
+        },
+        width: '1000px',disableClose: false 
+      });
+      
+    }
     
   }
 }
@@ -252,6 +270,14 @@ onRowEditingStopped(params) {
     function(){ 
     location.reload(); 
     }, 1000);
+}
+openModal(): void {
+  console.log('help')
+  const dialogRef = this.modal.open(NextservicehelpmodalComponent,{
+    width: '640px',disableClose: true 
+    
+  });
+
 }
 
 }

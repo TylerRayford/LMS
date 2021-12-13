@@ -72,7 +72,7 @@ export class EditmodalComponent implements OnInit {
       phone: [this.phone, [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       interval: [this.interval, [Validators.required, Validators.pattern("^[0-9]+$")]],
       notes: [this.notes],
-      address: [this.address, [Validators.required, Validators.pattern('^[a-zA-Z0-9_ ]*$')]],
+      address: [this.address, [Validators.required]],
       service: [this.service, [Validators.required]],
       nextservicedate: [this.nextservicedate, [Validators.required]],
     });

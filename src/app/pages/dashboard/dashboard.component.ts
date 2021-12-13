@@ -95,17 +95,17 @@ export class DashboardComponent implements OnInit {
         cellRenderer: actionCellRenderer,
         editable: false,
         colId: "action",
-        suppressSizeToFit: false
+        suppressSizeToFit: true
       },
       {
         headerName:"Client Name",
         field:"client_Name",
-        sortable: true,filter: true, resizable: true,suppressSizeToFit: false
+        sortable: true,filter: true, resizable: true,suppressSizeToFit: true
       },
       {
         headerName:"Address",
         field:"client_Address",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true
       },
       {
         headerName:"Intervals",
@@ -123,22 +123,22 @@ export class DashboardComponent implements OnInit {
       {
         headerName:"Service",
         field:"client_Service",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true
       },
       {
         headerName:"Notes",
         field:"client_Notes",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true
       },
       {
         headerName:"Contact Name",
         field:"client_Contact_Name",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true
       },
       {
         headerName:"Contact Email",
         field:"client_Contact_Email",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false/* ,cellRenderer: (params) => {
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true/* ,cellRenderer: (params) => {
           var link = document.createElement('a');
           link.href = '#';
           link.innerText = params.value;
@@ -152,7 +152,7 @@ export class DashboardComponent implements OnInit {
       {
         headerName:"Phone Number",
         field:"client_Contact_Number",
-        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: false
+        sortable: true,filter: true, resizable: true, editable: true,suppressSizeToFit: true
       },
       
       
